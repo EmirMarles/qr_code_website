@@ -7,7 +7,6 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
   const [businessId, setBusinessId] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [qrCodeId, setQrCodeId] = useState(null);
-  const [businessName, setBusinessName] = useState('Loading Business...');
 
   useEffect(() => {
     // Parse QR code parameters from URL
@@ -15,7 +14,6 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
     
     if (id) {
       setBusinessId(id);
-      setBusinessName(`Barbershop ${id}`);
     }
     
     if (qrId) {
@@ -43,69 +41,29 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
   return (
     <div className="qr-landing">
       <div className="qr-container">
-        {/* Header */}
-        <div className="qr-header">
-          <div className="qr-logo">
-            <h1>💈 {businessName}</h1>
-            <p>Book your appointment online</p>
-          </div>
-        </div>
-
         {/* Main Content */}
         <div className="qr-content">
           <div className="booking-welcome">
             <div className="welcome-icon">B</div>
-            <h2>Welcome!</h2>
-            <p>Ready to book your barbershop appointment? Click below to get started.</p>
+            <h2>Добро пожаловать!</h2>
+            <p>Готовы записаться на прием? Нажмите ниже, чтобы начать.</p>
             
                 <div className="booking-action">
                   <button 
                     className="book-btn primary"
                     onClick={handleBookNow}
                   >
-                    Book Appointment Now
+                    Записаться на прием
                   </button>
                   <button 
                     className="book-btn secondary"
                     onClick={handleDownloadApp}
                   >
-                    Download App
+                    Скачать приложение
                   </button>
-                  <p className="booking-note">Quick and easy online booking</p>
+                  <p className="booking-note">Быстрая и простая онлайн запись</p>
                 </div>
           </div>
-        </div>
-
-        {/* Features */}
-        <div className="qr-features">
-          <h3>Why Choose Us?</h3>
-          <div className="features-grid">
-                <div className="feature">
-                  <div className="feature-icon">Q</div>
-                  <h4>Quick Booking</h4>
-                  <p>Book appointments in seconds</p>
-                </div>
-                <div className="feature">
-                  <div className="feature-icon">S</div>
-                  <h4>Easy Scheduling</h4>
-                  <p>Choose your preferred time slot</p>
-                </div>
-                <div className="feature">
-                  <div className="feature-icon">E</div>
-                  <h4>Expert Barbers</h4>
-                  <p>Professional barbers at your service</p>
-                </div>
-                <div className="feature">
-                  <div className="feature-icon">R</div>
-                  <h4>Reminders</h4>
-                  <p>Never miss an appointment</p>
-                </div>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="qr-footer">
-          <p>© 2024 {businessName}. All rights reserved.</p>
         </div>
       </div>
     </div>
