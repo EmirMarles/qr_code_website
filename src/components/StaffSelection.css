@@ -1,9 +1,10 @@
 .staff-selection {
   background: white;
-  border-radius: 12px;
-  padding: 30px;
+  border-radius: 1rem;
+  padding: 2rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
+  margin: 2rem 0;
+  border: 1px solid #f1f5f9;
 }
 
 .staff-selection h3 {
@@ -27,14 +28,16 @@
 
 .staff-card {
   border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 25px;
+  border-radius: 1rem;
+  padding: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
   background: white;
-  text-align: center;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .staff-card::before {
@@ -71,13 +74,13 @@
 }
 
 .staff-avatar {
-  width: 80px;
-  height: 80px;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
   overflow: hidden;
-  margin: 0 auto 20px;
   border: 3px solid #e5e7eb;
   transition: border-color 0.3s ease;
+  flex-shrink: 0;
 }
 
 .staff-card:hover .staff-avatar {
@@ -106,25 +109,43 @@
   font-weight: bold;
 }
 
+.staff-info {
+  flex: 1;
+  min-width: 0;
+}
+
 .staff-info h4 {
-  font-size: 18px;
+  font-size: 1.125rem;
   color: #1f2937;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   font-weight: 600;
 }
 
 .staff-position {
   color: #10b981;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  background: #ecfdf5;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  display: inline-block;
 }
 
 .staff-bio {
   color: #6b7280;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
-  margin-top: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.staff-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #f59e0b;
+  font-weight: 600;
 }
 
 .no-staff {

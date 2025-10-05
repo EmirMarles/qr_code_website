@@ -23,28 +23,42 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
       <p className="section-description">Выберите услугу, которую хотите заказать</p>
       
       <div className="services-grid">
-        {services.map(service => (
-          <div 
-            key={service._id}
-            className={`service-card ${selectedService?._id === service._id ? 'selected' : ''}`}
-            onClick={() => handleServiceSelect(service)}
-          >
-            <div className="service-info">
-              <h4>{service.name}</h4>
-              {service.description && (
-                <p className="service-description">{service.description}</p>
-              )}
-              <div className="service-details">
-                <span className="service-duration">
-                  ⏱️ {service.duration || 60} мин
-                </span>
-                <span className="service-price">
-                  💰 {service.price || 0} сум
-                </span>
+        {services.map(service => {
+          const getServiceIcon = (name) => {
+            const nameLower = name.toLowerCase();
+            if (nameLower.includes('стриж') || nameLower.includes('haircut')) return '✂️';
+            if (nameLower.includes('массаж') || nameLower.includes('massage')) return '💆‍♂️';
+            if (nameLower.includes('брит') || nameLower.includes('shave')) return '🪒';
+            if (nameLower.includes('уклад') || nameLower.includes('styling')) return '💇‍♂️';
+            return '💈';
+          };
+
+          return (
+            <div 
+              key={service._id}
+              className={`service-card ${selectedService?._id === service._id ? 'selected' : ''}`}
+              onClick={() => handleServiceSelect(service)}
+            >
+              <div className="service-icon">
+                {getServiceIcon(service.name)}
+              </div>
+              <div className="service-info">
+                <h4>{service.name}</h4>
+                {service.description && (
+                  <p className="service-description">{service.description}</p>
+                )}
+                <div className="service-details">
+                  <span className="service-duration">
+                    🕓 {service.duration || 60} мин
+                  </span>
+                  <span className="service-price">
+                    {service.price || 0} сум
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

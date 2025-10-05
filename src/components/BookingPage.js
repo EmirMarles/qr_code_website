@@ -203,6 +203,9 @@ const BookingPage = ({ businessId: propBusinessId }) => {
               <div className="logo">
                 {business.name}
               </div>
+              <div className="category">
+                💈 Barbershop
+              </div>
             </header>
 
         {/* Business Information */}
