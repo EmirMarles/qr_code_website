@@ -13,43 +13,26 @@ const handleResponse = async (response) => {
 // Fetch business data with embedded services and staff (matches backend QR flow)
 export const fetchBusinessData = async (businessId) => {
   try {
-    // Use the booking endpoint that includes embedded services and staff data
-    const response = await fetch(`${API_BASE_URL}/booking/${businessId}`);
+    // Use the customer endpoint that includes embedded services and staff data
+    const response = await fetch(`${API_BASE_URL}/customer/business/${businessId}`);
     if (response.status === 404) {
       console.warn('Business not found');
       return null;
     }
     
-    // The backend returns HTML with embedded data, but we need the raw data
-    // Let's try the customer endpoint first, then fall back to parsing HTML if needed
-    const customerResponse = await fetch(`${API_BASE_URL}/customer/business/${businessId}`);
-    if (customerResponse.ok) {
-      const data = await handleResponse(customerResponse);
-      return data;
-    }
-    
-    // If customer endpoint fails, return null
-    return null;
+    const data = await handleResponse(response);
+    return data.business || data; // Handle both {business: {...}} and direct object formats
   } catch (error) {
     console.error('Failed to fetch business:', error);
     return null;
   }
 };
 
-// Fetch services for a business (fallback for when business data doesn't include services)
+// Fetch services for a business (fallback - not needed since services are embedded in business data)
 export const fetchServices = async (businessId) => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/services?business=${businessId}`);
-    if (response.status === 404) {
-      console.warn('Services not found');
-      return [];
-    }
-    const data = await handleResponse(response);
-    return data.services || [];
-  } catch (error) {
-    console.error('Failed to fetch services:', error);
-    return [];
-  }
+  // Services should be embedded in business data, so this is a fallback
+  console.warn('fetchServices called - services should be embedded in business data');
+  return [];
 };
 
 // Fetch services by staff (matches backend QR flow)

@@ -6,7 +6,7 @@ import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
 import NotFound from './NotFound';
-import { fetchBusinessData, fetchServices, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
+import { fetchBusinessData, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
 
 const BookingPage = ({ businessId: propBusinessId }) => {
@@ -51,23 +51,19 @@ const BookingPage = ({ businessId: propBusinessId }) => {
         }
         setBusiness(businessData);
 
-        // Extract services and staff from business data if available
-        if (businessData.services && businessData.staff) {
+        // Extract services and staff from business data (should be embedded)
+        if (businessData.services && Array.isArray(businessData.services)) {
           setServices(businessData.services);
+        } else {
+          console.warn('Services not found in business data');
+          setServices([]);
+        }
+        
+        if (businessData.staff && Array.isArray(businessData.staff)) {
           setStaff(businessData.staff);
         } else {
-          // Fallback: fetch services separately if not embedded
-          const servicesData = await fetchServices(businessId);
-          setServices(servicesData);
-          
-          // Staff data should be embedded in business data according to QR flow
-          // If not available, we'll need to handle this case
-          if (!businessData.staff) {
-            console.warn('Staff data not found in business data');
-            setStaff([]);
-          } else {
-            setStaff(businessData.staff);
-          }
+          console.warn('Staff data not found in business data');
+          setStaff([]);
         }
       } catch (err) {
         console.error('Failed to load initial data:', err);
