@@ -13,7 +13,7 @@ const handleResponse = async (response) => {
 // Fetch business data
 export const fetchBusinessData = async (businessId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/businesses/${businessId}`);
+    const response = await fetch(`${API_BASE_URL}/customer/business/${businessId}`);
     if (response.status === 404) {
       console.warn('Business not found');
       return null;
