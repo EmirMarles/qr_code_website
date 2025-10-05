@@ -19,8 +19,8 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
 
   return (
     <div className="staff-selection">
-      <h3>Choose a Staff Member</h3>
-      <p className="section-description">Select your preferred staff member</p>
+      <h3>Выберите мастера</h3>
+      <p className="section-description">Выберите мастера для записи</p>
       
       <div className="staff-grid">
         {staff.map(staffMember => (

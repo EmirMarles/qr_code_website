@@ -19,8 +19,8 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
 
   return (
     <div className="service-selection">
-      <h3>Choose a Service</h3>
-      <p className="section-description">Select the service you'd like to book</p>
+      <h3>Выберите услугу</h3>
+      <p className="section-description">Выберите услугу, которую хотите заказать</p>
       
       <div className="services-grid">
         {services.map(service => (
@@ -36,10 +36,10 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
               )}
               <div className="service-details">
                 <span className="service-duration">
-                  ⏱️ {service.duration || 60} minutes
+                  ⏱️ {service.duration || 60} мин
                 </span>
                 <span className="service-price">
-                  💰 ${service.price || 0}
+                  💰 {service.price || 0} сум
                 </span>
               </div>
             </div>

@@ -4,14 +4,14 @@ import './BusinessInfo.css';
 const BusinessInfo = ({ business }) => {
   const formatBusinessHours = (hours) => {
     if (!hours || !Array.isArray(hours)) {
-      return <p>Hours not available</p>;
+      return <p>Часы работы не указаны</p>;
     }
 
     return hours.map(day => (
       <div key={day.day} className="business-hour">
         <span className="day">{day.day}</span>
         <span className="hours">
-          {day.isOpen ? `${day.open} - ${day.close}` : 'Closed'}
+          {day.isOpen ? `${day.open} - ${day.close}` : 'Закрыто'}
         </span>
       </div>
     ));
@@ -39,16 +39,16 @@ const BusinessInfo = ({ business }) => {
       </div>
 
       <div className="business-details">
-        {business.location && business.location.address && (
+        {(business.location && business.location.address) || business.address ? (
           <div className="location">
-            <h3>📍 Location</h3>
-            <p>{business.location.address}</p>
+            <h3>📍 Адрес</h3>
+            <p>{business.location?.address || business.address}</p>
           </div>
-        )}
+        ) : null}
 
         {business.businessHours && business.businessHours.length > 0 && (
           <div className="hours">
-            <h3>🕒 Business Hours</h3>
+            <h3>🕒 Часы работы</h3>
             <div className="hours-list">
               {formatBusinessHours(business.businessHours)}
             </div>
@@ -57,13 +57,13 @@ const BusinessInfo = ({ business }) => {
 
         {business.paymentOptions && business.paymentOptions.length > 0 && (
           <div className="payment-options">
-            <h3>💳 Payment Methods</h3>
+            <h3>💳 Способы оплаты</h3>
             <div className="payment-methods">
               {business.paymentOptions.map((method, index) => (
                 <span key={index} className="payment-method">
-                  {method === 'card' ? '💳 Card' : 
-                   method === 'cash' ? '💵 Cash' : 
-                   method === 'online' ? '💻 Online' : 
+                  {method === 'card' ? '💳 Карта' : 
+                   method === 'cash' ? '💵 Наличные' : 
+                   method === 'online' ? '💻 Онлайн' : 
                    `💳 ${method}`}
                 </span>
               ))}
@@ -73,7 +73,7 @@ const BusinessInfo = ({ business }) => {
 
         {business.instagramLink && (
           <div className="social-links">
-            <h3>📱 Follow Us</h3>
+            <h3>📱 Подписывайтесь</h3>
             <a 
               href={business.instagramLink} 
               target="_blank" 
@@ -87,7 +87,7 @@ const BusinessInfo = ({ business }) => {
 
         {business.phone && (
           <div className="contact-info">
-            <h3>📞 Contact</h3>
+            <h3>📞 Контакт</h3>
             <a href={`tel:${business.phone}`} className="phone-link">
               {business.phone}
             </a>

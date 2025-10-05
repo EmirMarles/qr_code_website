@@ -36,7 +36,7 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { 
+      return date.toLocaleDateString('ru-RU', { 
         weekday: 'short', 
         month: 'short', 
         day: 'numeric' 
@@ -49,9 +49,9 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
   if (!availableSlots || availableSlots.length === 0) {
     return (
       <div className="datetime-selection">
-        <h3>Select Date & Time</h3>
+        <h3>Выберите дату и время</h3>
         <div className="no-slots">
-          <p>No available time slots found. Please try selecting a different date or contact the business directly.</p>
+          <p>Нет доступных слотов. Попробуйте выбрать другую дату или свяжитесь с бизнесом напрямую.</p>
         </div>
       </div>
     );
@@ -59,11 +59,11 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
 
   return (
     <div className="datetime-selection">
-      <h3>Select Date & Time</h3>
-      <p className="section-description">Choose your preferred date and time</p>
+      <h3>Выберите дату и время</h3>
+      <p className="section-description">Выберите удобную дату и время записи</p>
       
       <div className="date-selection">
-        <h4>Choose Date</h4>
+        <h4>Выберите дату</h4>
         <div className="dates-grid">
           {getAvailableDates().map(date => (
             <button
@@ -79,7 +79,7 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
 
       {localSelectedDate && (
         <div className="time-selection">
-          <h4>Choose Time</h4>
+          <h4>Выберите время</h4>
           <div className="times-grid">
             {getAvailableTimes(localSelectedDate).map(timeSlot => (
               <button

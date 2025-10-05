@@ -20,7 +20,8 @@ const BookingPage = () => {
   const [selectedTime, setSelectedTime] = useState(null);
   const [bookingForm, setBookingForm] = useState({
     clientName: '',
-    clientPhone: ''
+    clientPhone: '',
+    notes: ''
   });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -134,7 +135,7 @@ const BookingPage = () => {
     setSelectedStaff(null);
     setSelectedDate(null);
     setSelectedTime(null);
-    setBookingForm({ clientName: '', clientPhone: '' });
+    setBookingForm({ clientName: '', clientPhone: '', notes: '' });
   };
 
   if (isLoading) {

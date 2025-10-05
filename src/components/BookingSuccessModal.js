@@ -25,50 +25,50 @@ const BookingSuccessModal = ({ booking, onClose }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="success-modal" onClick={(e) => e.stopPropagation()}>
         <div className="success-icon">✅</div>
-        <h2>Booking Confirmed!</h2>
+        <h2>Запись подтверждена!</h2>
         <p className="success-message">
-          Your appointment has been successfully booked. You will receive a confirmation message shortly.
+          Ваша запись успешно создана. Вы получите подтверждение в ближайшее время.
         </p>
         
         <div className="booking-details">
-          <h3>Booking Details</h3>
+          <h3>Детали записи</h3>
           <div className="detail-item">
-            <span>Booking ID:</span>
+            <span>ID записи:</span>
             <span>{booking?.appointmentId || booking?._id || 'N/A'}</span>
           </div>
           <div className="detail-item">
-            <span>Service:</span>
+            <span>Услуга:</span>
             <span>{booking?.service?.name || 'N/A'}</span>
           </div>
           <div className="detail-item">
-            <span>Staff:</span>
+            <span>Мастер:</span>
             <span>{booking?.staff?.fullName || 'N/A'}</span>
           </div>
           <div className="detail-item">
-            <span>Date:</span>
+            <span>Дата:</span>
             <span>{formatDate(booking?.date)}</span>
           </div>
           <div className="detail-item">
-            <span>Time:</span>
+            <span>Время:</span>
             <span>{booking?.startTime || booking?.time}</span>
           </div>
           <div className="detail-item">
-            <span>Total:</span>
-            <span>${booking?.service?.price || booking?.total || 'N/A'}</span>
+            <span>Сумма:</span>
+            <span>{booking?.service?.price || booking?.total || 'N/A'} сум</span>
           </div>
         </div>
 
         <div className="modal-actions">
           <button onClick={onClose} className="close-btn">
-            Close
+            Закрыть
           </button>
           <button onClick={handleNewBooking} className="new-booking-btn">
-            Book Another
+            Новая запись
           </button>
         </div>
 
         <div className="success-note">
-          <p>💡 Save this page or take a screenshot for your records.</p>
+          <p>💡 Сохраните эту страницу или сделайте скриншот для ваших записей.</p>
         </div>
       </div>
     </div>

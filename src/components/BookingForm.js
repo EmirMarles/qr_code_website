@@ -25,13 +25,13 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
     const newErrors = {};
     
     if (!formData.clientName.trim()) {
-      newErrors.clientName = 'Name is required';
+      newErrors.clientName = 'Имя обязательно';
     }
     
     if (!formData.clientPhone.trim()) {
-      newErrors.clientPhone = 'Phone number is required';
+      newErrors.clientPhone = 'Номер телефона обязателен';
     } else if (!/^[+]?[1-9][\d]{0,15}$/.test(formData.clientPhone.replace(/[\s\-()]/g, ''))) {
-      newErrors.clientPhone = 'Please enter a valid phone number';
+      newErrors.clientPhone = 'Введите корректный номер телефона';
     }
 
     setErrors(newErrors);
@@ -52,13 +52,14 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
         clientName: formData.clientName.trim(),
         clientPhone: formData.clientPhone.trim(),
         date: selectedDate,
-        startTime: selectedTime
+        startTime: selectedTime,
+        notes: formData.notes || ''
       };
 
       await onSubmit(bookingData);
     } catch (error) {
       console.error('Booking submission error:', error);
-      alert('Failed to book appointment. Please try again.');
+      alert('Ошибка при создании записи. Попробуйте еще раз.');
     } finally {
       setIsSubmitting(false);
     }
@@ -80,42 +81,42 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
 
   return (
     <form className="booking-form" onSubmit={handleSubmit}>
-      <h3>Complete Your Booking</h3>
-      <p className="section-description">Review your selection and provide your contact information</p>
+      <h3>Завершите запись</h3>
+      <p className="section-description">Проверьте ваш выбор и укажите контактную информацию</p>
       
       <div className="booking-summary">
-        <h4>Booking Summary</h4>
+        <h4>Детали записи</h4>
         <div className="summary-item">
-          <span>Service:</span>
+          <span>Услуга:</span>
           <span>{selectedService?.name}</span>
         </div>
         <div className="summary-item">
-          <span>Staff:</span>
+          <span>Мастер:</span>
           <span>{selectedStaff?.fullName}</span>
         </div>
         <div className="summary-item">
-          <span>Date:</span>
+          <span>Дата:</span>
           <span>{formatDate(selectedDate)}</span>
         </div>
         <div className="summary-item">
-          <span>Time:</span>
+          <span>Время:</span>
           <span>{selectedTime}</span>
         </div>
         <div className="summary-item total">
-          <span>Total:</span>
-          <span>${selectedService?.price || 0}</span>
+          <span>Сумма:</span>
+          <span>{selectedService?.price || 0} сум</span>
         </div>
       </div>
 
       <div className="form-group">
-        <label htmlFor="clientName">Your Name *</label>
+        <label htmlFor="clientName">Ваше имя *</label>
         <input
           type="text"
           id="clientName"
           name="clientName"
           value={formData.clientName}
           onChange={handleInputChange}
-          placeholder="Enter your full name"
+          placeholder="Введите ваше имя"
           className={errors.clientName ? 'error' : ''}
           required
         />
@@ -125,20 +126,32 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
       </div>
 
       <div className="form-group">
-        <label htmlFor="clientPhone">Phone Number *</label>
+        <label htmlFor="clientPhone">Номер телефона *</label>
         <input
           type="tel"
           id="clientPhone"
           name="clientPhone"
           value={formData.clientPhone}
           onChange={handleInputChange}
-          placeholder="Enter your phone number"
+          placeholder="+998901234567"
           className={errors.clientPhone ? 'error' : ''}
           required
         />
         {errors.clientPhone && (
           <span className="error-message">{errors.clientPhone}</span>
         )}
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="notes">Примечания (необязательно)</label>
+        <textarea
+          id="notes"
+          name="notes"
+          value={formData.notes || ''}
+          onChange={handleInputChange}
+          rows="3"
+          placeholder="Дополнительная информация..."
+        />
       </div>
 
       <div className="form-actions">
@@ -150,16 +163,16 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
           {isSubmitting ? (
             <>
               <span className="loading-spinner"></span>
-              Booking...
+              Запись...
             </>
           ) : (
-            'Book Appointment'
+            'Записаться на прием'
           )}
         </button>
       </div>
 
       <div className="booking-note">
-        <p>📝 You will receive a confirmation message once your booking is processed.</p>
+        <p>📝 Вы получите подтверждение после обработки вашей записи.</p>
       </div>
     </form>
   );

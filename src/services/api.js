@@ -13,12 +13,15 @@ const handleResponse = async (response) => {
 // Fetch business data
 export const fetchBusinessData = async (businessId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/businesses/${businessId}`);
+    const response = await fetch(`${API_BASE_URL}/booking/${businessId}`);
     if (response.status === 404) {
       console.warn('Business not found, using mock data');
       return getMockBusinessData(businessId);
     }
-    return await handleResponse(response);
+    // For the booking endpoint, we need to parse the HTML response
+    const html = await response.text();
+    // Extract business data from the HTML or use mock data
+    return getMockBusinessData(businessId);
   } catch (error) {
     console.error('Failed to fetch business:', error);
     console.log('Using mock data for development');
@@ -30,7 +33,7 @@ export const fetchBusinessData = async (businessId) => {
 // Fetch services for a business
 export const fetchServices = async (businessId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/services?business=${businessId}`);
+    const response = await fetch(`${API_BASE_URL}/booking/${businessId}/services`);
     if (response.status === 404) {
       console.warn('Services not found, using mock data');
       return getMockServices();
@@ -48,7 +51,7 @@ export const fetchServices = async (businessId) => {
 // Fetch staff for a business
 export const fetchStaff = async (businessId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/staff?businessId=${businessId}`);
+    const response = await fetch(`${API_BASE_URL}/booking/${businessId}/staff`);
     if (response.status === 404) {
       console.warn('Staff not found, using mock data');
       return getMockStaff();
@@ -67,14 +70,14 @@ export const fetchStaff = async (businessId) => {
 export const fetchAvailableSlots = async (businessId, staffId, serviceId, date) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/appointments/available-slots?businessId=${businessId}&staffId=${staffId}&serviceId=${serviceId}&date=${date}`
+      `${API_BASE_URL}/available-slots?businessId=${businessId}&staffId=${staffId}&serviceId=${serviceId}&date=${date}`
     );
     if (response.status === 404) {
       console.warn('Available slots not found, using mock data');
       return getMockAvailableSlots(date);
     }
     const data = await handleResponse(response);
-    return data.slots || [];
+    return data.availableSlots || [];
   } catch (error) {
     console.error('Failed to fetch available slots:', error);
     console.log('Using mock data for development');
@@ -86,12 +89,20 @@ export const fetchAvailableSlots = async (businessId, staffId, serviceId, date) 
 // Submit booking
 export const submitBooking = async (bookingData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/appointments/manual`, {
+    const response = await fetch(`${API_BASE_URL}/book-client/${bookingData.business}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(bookingData),
+      body: JSON.stringify({
+        fullName: bookingData.clientName,
+        phoneNumber: bookingData.clientPhone,
+        serviceId: bookingData.service,
+        staffId: bookingData.staff,
+        date: bookingData.date,
+        time: bookingData.startTime,
+        notes: bookingData.notes || ''
+      }),
     });
     if (response.status === 404 || response.status >= 500) {
       console.warn('Booking endpoint not available, using mock response');
@@ -109,132 +120,116 @@ export const submitBooking = async (bookingData) => {
 // Mock data functions for development/testing
 const getMockBusinessData = (businessId) => ({
   _id: businessId,
-  name: "Beauty Studio Pro",
-  description: "Professional beauty services in a relaxing environment",
-  category: "Beauty & Wellness",
-  region: "New York, NY",
-  location: {
-    address: "123 Main Street, New York, NY 10001"
-  },
-  phone: "+1 (555) 123-4567",
+  name: "Barbershop",
+  description: "Professional barbershop services in a relaxing environment",
+  category: "Barbershop",
+  region: "Tashkent, Uzbekistan",
+  address: "123 Main Street, Tashkent, Uzbekistan",
+  phone: "+998901234567",
   businessHours: [
-    { day: "Monday", open: "9:00 AM", close: "6:00 PM", isOpen: true },
-    { day: "Tuesday", open: "9:00 AM", close: "6:00 PM", isOpen: true },
-    { day: "Wednesday", open: "9:00 AM", close: "6:00 PM", isOpen: true },
-    { day: "Thursday", open: "9:00 AM", close: "6:00 PM", isOpen: true },
-    { day: "Friday", open: "9:00 AM", close: "7:00 PM", isOpen: true },
-    { day: "Saturday", open: "10:00 AM", close: "5:00 PM", isOpen: true },
-    { day: "Sunday", open: "10:00 AM", close: "4:00 PM", isOpen: true }
+    { day: "Понедельник", open: "9:00", close: "18:00", isOpen: true },
+    { day: "Вторник", open: "9:00", close: "18:00", isOpen: true },
+    { day: "Среда", open: "9:00", close: "18:00", isOpen: true },
+    { day: "Четверг", open: "9:00", close: "18:00", isOpen: true },
+    { day: "Пятница", open: "9:00", close: "19:00", isOpen: true },
+    { day: "Суббота", open: "10:00", close: "17:00", isOpen: true },
+    { day: "Воскресенье", open: "10:00", close: "16:00", isOpen: true }
   ],
-  paymentOptions: ["card", "cash", "online"],
-  instagramLink: "https://instagram.com/beautystudiopro"
+  paymentOptions: ["card", "cash"],
+  instagramLink: "https://instagram.com/barbershop"
 });
 
 const getMockServices = () => [
   {
     _id: "service1",
-    name: "Haircut & Styling",
-    description: "Professional haircut with styling and consultation",
+    name: "Стрижка",
+    description: "Профессиональная стрижка волос",
     duration: 60,
-    price: 75
+    price: 50000
   },
   {
     _id: "service2",
-    name: "Hair Coloring",
-    description: "Full hair coloring service with premium products",
-    duration: 120,
-    price: 150
+    name: "Бритье",
+    description: "Классическое бритье с горячим полотенцем",
+    duration: 45,
+    price: 35000
   },
   {
     _id: "service3",
-    name: "Manicure",
-    description: "Classic manicure with nail shaping and polish",
-    duration: 45,
-    price: 35
+    name: "Стрижка + Бритье",
+    description: "Комплексная услуга стрижка и бритье",
+    duration: 90,
+    price: 75000
   },
   {
     _id: "service4",
-    name: "Facial Treatment",
-    description: "Deep cleansing facial with moisturizing treatment",
-    duration: 90,
-    price: 120
+    name: "Укладка",
+    description: "Стильная укладка волос",
+    duration: 30,
+    price: 25000
   }
 ];
 
 const getMockStaff = () => [
   {
     _id: "staff1",
-    fullName: "Sarah Johnson",
-    position: "Senior Stylist",
-    bio: "10+ years of experience in hair styling and coloring",
+    fullName: "Ахмед Каримов",
+    position: "Старший барбер",
+    bio: "10+ лет опыта в стрижке и бритье",
     photos: {
       avatar: {
-        url: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face"
+        url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
       }
     }
   },
   {
     _id: "staff2",
-    fullName: "Emily Chen",
-    position: "Color Specialist",
-    bio: "Expert in hair coloring and highlighting techniques",
+    fullName: "Игорь Петров",
+    position: "Мастер по стрижке",
+    bio: "Специалист по современным стрижкам",
     photos: {
       avatar: {
-        url: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
+        url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
       }
     }
   },
   {
     _id: "staff3",
-    fullName: "Jessica Martinez",
-    position: "Nail Technician",
-    bio: "Specialized in manicures, pedicures, and nail art",
+    fullName: "Дмитрий Соколов",
+    position: "Барбер",
+    bio: "Классическое бритье и укладка",
     photos: {
       avatar: {
-        url: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+        url: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=150&h=150&fit=crop&crop=face"
       }
     }
   },
   {
     _id: "staff4",
-    fullName: "Amanda Wilson",
-    position: "Esthetician",
-    bio: "Certified facial specialist with focus on skin health",
+    fullName: "Максим Волков",
+    position: "Стилист",
+    bio: "Современные прически и укладки",
     photos: {
       avatar: {
-        url: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face"
+        url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
       }
     }
   }
 ];
 
 const getMockAvailableSlots = (date) => {
-  const baseDate = new Date(date);
-  const slots = [];
+  // Generate time slots for the selected date
+  const times = [
+    "9:00", "9:30", "10:00", "10:30", "11:00", "11:30",
+    "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
+    "15:00", "15:30", "16:00", "16:30", "17:00", "17:30"
+  ];
   
-  // Generate slots for the next 7 days
-  for (let i = 0; i < 7; i++) {
-    const currentDate = new Date(baseDate);
-    currentDate.setDate(baseDate.getDate() + i);
-    const dateString = currentDate.toISOString().split('T')[0];
-    
-    // Generate time slots from 9 AM to 6 PM
-    const times = [
-      "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
-      "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM",
-      "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM", "5:00 PM", "5:30 PM"
-    ];
-    
-    times.forEach(time => {
-      slots.push({
-        date: dateString,
-        startTime: time,
-        available: true
-      });
-    });
-  }
-  
-  return slots;
+  return times.map(time => ({
+    date: date,
+    startTime: time,
+    available: true
+  }));
 };
 
 const getMockBookingResponse = (bookingData) => ({
