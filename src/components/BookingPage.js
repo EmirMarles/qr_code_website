@@ -5,6 +5,7 @@ import StaffSelection from './StaffSelection';
 import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
+import ProgressIndicator from './ProgressIndicator';
 import NotFound from './NotFound';
 import { fetchBusinessData, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
@@ -196,9 +197,21 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     return <NotFound />;
   }
 
-  return (
+      // Calculate current step for progress indicator
+      const getCurrentStep = () => {
+        if (selectedService && selectedStaff && selectedDate && selectedTime) return 5; // Booking form
+        if (selectedService && selectedStaff && selectedDate) return 4; // Time selection
+        if (selectedService && selectedStaff) return 3; // Date selection
+        if (selectedService) return 2; // Staff selection
+        return 1; // Service selection
+      };
+
+      return (
         <div className="booking-page">
           <div className="container">
+            {/* Progress Indicator */}
+            <ProgressIndicator currentStep={getCurrentStep()} totalSteps={5} />
+
             {/* Header */}
             <header className="header">
               <div className="business-header-content">
