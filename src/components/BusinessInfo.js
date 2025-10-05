@@ -7,15 +7,27 @@ const BusinessInfo = ({ business }) => {
       return <p>Часы работы не указаны</p>;
     }
 
+    const dayTranslations = {
+      'monday': 'Понедельник',
+      'tuesday': 'Вторник', 
+      'wednesday': 'Среда',
+      'thursday': 'Четверг',
+      'friday': 'Пятница',
+      'saturday': 'Суббота',
+      'sunday': 'Воскресенье'
+    };
+
     const today = new Date().toLocaleDateString('ru-RU', { weekday: 'long' });
 
     return hours.map(day => {
-      const isToday = day.day.toLowerCase() === today.toLowerCase();
+      const dayKey = day.day.toLowerCase();
+      const translatedDay = dayTranslations[dayKey] || day.day;
+      const isToday = dayKey === today.toLowerCase();
       
       return (
         <div key={day.day} className={`business-hour ${isToday ? 'today' : ''}`}>
           <span className="day">
-            {day.day}
+            {translatedDay}
           </span>
           <span className="hours">
             {day.isOpen ? `${day.open} - ${day.close}` : 'Закрыто'}
