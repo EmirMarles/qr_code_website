@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import AppStoreRedirect from './AppStoreRedirect';
 import BusinessInfo from './BusinessInfo';
 import ServiceSelection from './ServiceSelection';
 import StaffSelection from './StaffSelection';
@@ -179,18 +178,14 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   }
 
   return (
-    <div className="booking-page">
-      <div className="container">
-        {/* Header */}
-        <header className="header">
-          <div className="logo">
-            {business.name}
-          </div>
-          <AppStoreRedirect />
-        </header>
-
-        {/* App Store Section */}
-        <AppStoreRedirect />
+        <div className="booking-page">
+          <div className="container">
+            {/* Header */}
+            <header className="header">
+              <div className="logo">
+                {business.name}
+              </div>
+            </header>
 
         {/* Business Information */}
         <BusinessInfo business={business} />
