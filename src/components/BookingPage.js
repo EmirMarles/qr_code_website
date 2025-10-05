@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import BusinessInfo from './BusinessInfo';
+import BusinessInfoModal from './BusinessInfoModal';
 import ServiceSelection from './ServiceSelection';
 import StaffSelection from './StaffSelection';
 import DateTimeSelection from './DateTimeSelection';
@@ -27,6 +27,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   const [error, setError] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [bookingResult, setBookingResult] = useState(null);
+  const [showBusinessInfo, setShowBusinessInfo] = useState(false);
   
   // Get business ID from prop or URL parameters
   const getBusinessId = () => {
@@ -200,16 +201,20 @@ const BookingPage = ({ businessId: propBusinessId }) => {
           <div className="container">
             {/* Header */}
             <header className="header">
-              <div className="logo">
-                {business.name}
+              <div className="business-header-content">
+                <div className="business-name">{business.name}</div>
+                <div className="business-address">
+                  {business.location?.address || business.address}
+                </div>
               </div>
-              <div className="category">
-                Barbershop
-              </div>
+              <button 
+                className="info-button"
+                onClick={() => setShowBusinessInfo(true)}
+              >
+                i
+              </button>
             </header>
 
-        {/* Business Information */}
-        <BusinessInfo business={business} />
 
         {/* Service Selection */}
         <ServiceSelection 
@@ -270,13 +275,21 @@ const BookingPage = ({ businessId: propBusinessId }) => {
           />
         )}
 
-        {/* Success Modal */}
-        {showSuccessModal && bookingResult && (
-          <BookingSuccessModal 
-            booking={bookingResult}
-            onClose={handleCloseSuccessModal}
-          />
-        )}
+            {/* Business Info Modal */}
+            {showBusinessInfo && (
+              <BusinessInfoModal 
+                business={business}
+                onClose={() => setShowBusinessInfo(false)}
+              />
+            )}
+
+            {/* Success Modal */}
+            {showSuccessModal && bookingResult && (
+              <BookingSuccessModal 
+                booking={bookingResult}
+                onClose={handleCloseSuccessModal}
+              />
+            )}
       </div>
     </div>
   );
