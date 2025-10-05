@@ -26,12 +26,18 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
     
     if (!formData.clientName.trim()) {
       newErrors.clientName = 'Имя обязательно';
+    } else if (formData.clientName.trim().length < 2 || formData.clientName.trim().length > 50) {
+      newErrors.clientName = 'Имя должно содержать от 2 до 50 символов';
     }
     
     if (!formData.clientPhone.trim()) {
       newErrors.clientPhone = 'Номер телефона обязателен';
-    } else if (!/^[+]?[1-9][\d]{0,15}$/.test(formData.clientPhone.replace(/[\s\-()]/g, ''))) {
-      newErrors.clientPhone = 'Введите корректный номер телефона';
+    } else if (!/^\+998[0-9]{9}$/.test(formData.clientPhone.replace(/[\s\-()]/g, ''))) {
+      newErrors.clientPhone = 'Введите номер в формате +998XXXXXXXXX';
+    }
+
+    if (formData.notes && formData.notes.length > 500) {
+      newErrors.notes = 'Примечания не должны превышать 500 символов';
     }
 
     setErrors(newErrors);
@@ -151,7 +157,11 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
           onChange={handleInputChange}
           rows="3"
           placeholder="Дополнительная информация..."
+          className={errors.notes ? 'error' : ''}
         />
+        {errors.notes && (
+          <span className="error-message">{errors.notes}</span>
+        )}
       </div>
 
       <div className="form-actions">

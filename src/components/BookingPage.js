@@ -147,7 +147,8 @@ const BookingPage = ({ businessId: propBusinessId }) => {
       setShowSuccessModal(true);
     } catch (err) {
       console.error('Booking failed:', err);
-      alert('Failed to book appointment. Please try again.');
+      // Show specific error message from backend
+      alert(`Ошибка при создании записи: ${err.message}`);
     }
   };
 

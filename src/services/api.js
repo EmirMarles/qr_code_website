@@ -5,6 +5,13 @@ const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://bookme-backend-53
 const handleResponse = async (response) => {
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ message: 'Network error' }));
+    
+    // Handle validation errors with detailed messages
+    if (response.status === 400 && errorData.errors) {
+      const errorMessages = errorData.errors.map(err => err.msg).join(', ');
+      throw new Error(errorMessages);
+    }
+    
     throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
   }
   return response.json();
