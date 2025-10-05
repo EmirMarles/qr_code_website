@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: qr-code-booking-website
+    env: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://bookme-backend-536445311459.europe-central2.run.app/api
+      - key: NODE_ENV
+        value: production

@@ -1,0 +1,253 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.success-modal {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.success-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.success-modal h2 {
+  font-size: 28px;
+  color: #059669;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.success-message {
+  color: #6b7280;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+.booking-details {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 25px;
+  margin: 25px 0;
+  text-align: left;
+  border: 1px solid #e5e7eb;
+}
+
+.booking-details h3 {
+  font-size: 18px;
+  color: #1f2937;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item span:first-child {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.detail-item span:last-child {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.close-btn,
+.new-booking-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.close-btn {
+  background: #6b7280;
+  color: white;
+}
+
+.close-btn:hover {
+  background: #4b5563;
+  transform: translateY(-1px);
+}
+
+.new-booking-btn {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: white;
+}
+
+.new-booking-btn:hover {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.success-note {
+  margin-top: 25px;
+  padding: 15px;
+  background: #f0f9ff;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+}
+
+.success-note p {
+  color: #1e40af;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 15px;
+  }
+  
+  .success-modal {
+    padding: 30px;
+    max-width: 400px;
+  }
+  
+  .success-icon {
+    font-size: 48px;
+  }
+  
+  .success-modal h2 {
+    font-size: 24px;
+  }
+  
+  .success-message {
+    font-size: 14px;
+  }
+  
+  .booking-details {
+    padding: 20px;
+  }
+  
+  .booking-details h3 {
+    font-size: 16px;
+  }
+  
+  .detail-item {
+    padding: 10px 0;
+    font-size: 14px;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .close-btn,
+  .new-booking-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 10px;
+  }
+  
+  .success-modal {
+    padding: 25px;
+    max-width: 350px;
+  }
+  
+  .success-icon {
+    font-size: 40px;
+  }
+  
+  .success-modal h2 {
+    font-size: 20px;
+  }
+  
+  .success-message {
+    font-size: 13px;
+  }
+  
+  .booking-details {
+    padding: 15px;
+  }
+  
+  .detail-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .success-note {
+    padding: 12px;
+  }
+  
+  .success-note p {
+    font-size: 13px;
+  }
+}

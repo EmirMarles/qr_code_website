@@ -1,0 +1,158 @@
+.datetime-selection {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.datetime-selection h3 {
+  font-size: 24px;
+  color: #1f2937;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.section-description {
+  color: #6b7280;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.date-selection,
+.time-selection {
+  margin-bottom: 30px;
+}
+
+.date-selection h4,
+.time-selection h4 {
+  font-size: 18px;
+  color: #374151;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.dates-grid,
+.times-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.date-btn,
+.time-btn {
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  color: #374151;
+}
+
+.date-btn:hover,
+.time-btn:hover {
+  border-color: #8b5cf6;
+  background: #faf5ff;
+  color: #8b5cf6;
+}
+
+.date-btn.selected,
+.time-btn.selected {
+  border-color: #8b5cf6;
+  background: #8b5cf6;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.no-slots {
+  text-align: center;
+  padding: 40px 20px;
+  color: #6b7280;
+}
+
+.no-slots p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .datetime-selection {
+    padding: 20px;
+    margin: 15px 0;
+  }
+  
+  .datetime-selection h3 {
+    font-size: 20px;
+  }
+  
+  .section-description {
+    font-size: 14px;
+    margin-bottom: 25px;
+  }
+  
+  .date-selection,
+  .time-selection {
+    margin-bottom: 25px;
+  }
+  
+  .date-selection h4,
+  .time-selection h4 {
+    font-size: 16px;
+  }
+  
+  .dates-grid,
+  .times-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .date-btn,
+  .time-btn {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .datetime-selection {
+    padding: 15px;
+    margin: 10px 0;
+  }
+  
+  .datetime-selection h3 {
+    font-size: 18px;
+  }
+  
+  .section-description {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  
+  .date-selection,
+  .time-selection {
+    margin-bottom: 20px;
+  }
+  
+  .date-selection h4,
+  .time-selection h4 {
+    font-size: 15px;
+  }
+  
+  .dates-grid,
+  .times-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .date-btn,
+  .time-btn {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}

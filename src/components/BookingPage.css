@@ -1,0 +1,91 @@
+.booking-page {
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.loading-container p {
+  margin-top: 20px;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+.error-container h2 {
+  color: #dc2626;
+  margin-bottom: 10px;
+}
+
+.error-container p {
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .logo {
+    font-size: 20px;
+  }
+  
+  .loading-container,
+  .error-container {
+    min-height: 300px;
+    padding: 20px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 5px;
+  }
+  
+  .header {
+    padding: 15px 0;
+  }
+  
+  .logo {
+    font-size: 18px;
+  }
+}
