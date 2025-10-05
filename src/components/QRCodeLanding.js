@@ -44,7 +44,6 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
         {/* Main Content */}
         <div className="qr-content">
           <div className="booking-welcome">
-            <div className="welcome-icon">B</div>
             <h2>Добро пожаловать!</h2>
             <p>Готовы записаться на прием? Нажмите ниже, чтобы начать.</p>
             
