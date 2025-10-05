@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { attemptAppRedirect, parseQRCodeFromUrl, trackQRScan } from '../utils/deviceDetection';
 import './QRCodeLanding.css';
 
 const QRCodeLanding = ({ onBookWithoutRegistration }) => {
@@ -11,21 +12,8 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
   const [businessName, setBusinessName] = useState('Loading Business...');
 
   useEffect(() => {
-    const detectDevice = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      
-      if (/iphone|ipad|ipod/.test(userAgent)) {
-        setDevice('ios');
-      } else if (/android/.test(userAgent)) {
-        setDevice('android');
-      } else {
-        setDevice('desktop');
-      }
-    };
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('businessId');
-    const qrId = urlParams.get('qr');
+    // Parse QR code parameters from URL
+    const { businessId: id, qr: qrId, platform } = parseQRCodeFromUrl();
     
     if (id) {
       setBusinessId(id);
@@ -34,66 +22,42 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
     
     if (qrId) {
       console.log('QR Code ID:', qrId);
+      // Track the QR scan
+      trackQRScan(qrId);
     }
 
-    detectDevice();
+    setDevice(platform);
   }, []);
 
   useEffect(() => {
     // Attempt to redirect to app if on mobile
-    if ((device === 'ios' || device === 'android') && !redirectAttempted) {
-      attemptAppRedirect();
+    if ((device === 'ios' || device === 'android') && !redirectAttempted && businessId) {
+      handleAppRedirect();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [device, redirectAttempted]);
+  }, [device, redirectAttempted, businessId]);
 
-  const attemptAppRedirect = () => {
+  const handleAppRedirect = async () => {
     setRedirectAttempted(true);
     
-    // Get business ID from URL parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const businessId = urlParams.get('businessId') || 'default-business-id';
-    
-    // App deep link URLs (replace with your actual app URLs)
-    const appUrls = {
-      ios: `your-app-scheme://booking?businessId=${businessId}`,
-      android: `your-app-scheme://booking?businessId=${businessId}`
-    };
+    if (!businessId) {
+      console.warn('No businessId found for app redirect');
+      return;
+    }
 
-    const redirectUrl = appUrls[device];
-
-    if (redirectUrl) {
-      // Create a hidden iframe to attempt app opening
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = redirectUrl;
-      document.body.appendChild(iframe);
-
-      // Set a timeout to check if app opened
-      const timeout = setTimeout(() => {
-        // If we're still here after 2 seconds, app probably didn't open
+    try {
+      const appOpened = await attemptAppRedirect(businessId);
+      
+      if (!appOpened) {
+        // App didn't open, show fallback options
+        console.log('App not detected, showing fallback options');
         setAppDetected(false);
-        document.body.removeChild(iframe);
-      }, 2000);
-
-      // Listen for page visibility changes (app opened)
-      const handleVisibilityChange = () => {
-        if (document.hidden) {
-          setAppDetected(true);
-          clearTimeout(timeout);
-          document.body.removeChild(iframe);
-        }
-      };
-
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-
-      // Cleanup
-      setTimeout(() => {
-        document.removeEventListener('visibilitychange', handleVisibilityChange);
-        if (document.body.contains(iframe)) {
-          document.body.removeChild(iframe);
-        }
-      }, 3000);
+      } else {
+        setAppDetected(true);
+      }
+    } catch (error) {
+      console.error('App redirect failed:', error);
+      setAppDetected(false);
     }
   };
 

@@ -13,15 +13,13 @@ const handleResponse = async (response) => {
 // Fetch business data
 export const fetchBusinessData = async (businessId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/booking/${businessId}`);
+    const response = await fetch(`${API_BASE_URL}/businesses/${businessId}`);
     if (response.status === 404) {
       console.warn('Business not found, using mock data');
       return getMockBusinessData(businessId);
     }
-    // For the booking endpoint, we need to parse the HTML response
-    // const html = await response.text();
-    // Extract business data from the HTML or use mock data
-    return getMockBusinessData(businessId);
+    const data = await handleResponse(response);
+    return data;
   } catch (error) {
     console.error('Failed to fetch business:', error);
     console.log('Using mock data for development');
@@ -33,7 +31,7 @@ export const fetchBusinessData = async (businessId) => {
 // Fetch services for a business
 export const fetchServices = async (businessId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/booking/${businessId}/services`);
+    const response = await fetch(`${API_BASE_URL}/services?business=${businessId}`);
     if (response.status === 404) {
       console.warn('Services not found, using mock data');
       return getMockServices();
@@ -51,7 +49,7 @@ export const fetchServices = async (businessId) => {
 // Fetch staff for a business
 export const fetchStaff = async (businessId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/booking/${businessId}/staff`);
+    const response = await fetch(`${API_BASE_URL}/staff?businessId=${businessId}`);
     if (response.status === 404) {
       console.warn('Staff not found, using mock data');
       return getMockStaff();
@@ -70,7 +68,7 @@ export const fetchStaff = async (businessId) => {
 export const fetchAvailableSlots = async (businessId, staffId, serviceId, date) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/available-slots?businessId=${businessId}&staffId=${staffId}&serviceId=${serviceId}&date=${date}`
+      `${API_BASE_URL}/book-client/${businessId}/available-slots?date=${date}&staffId=${staffId}&serviceId=${serviceId}`
     );
     if (response.status === 404) {
       console.warn('Available slots not found, using mock data');
