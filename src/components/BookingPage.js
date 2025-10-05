@@ -6,7 +6,7 @@ import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
 import NotFound from './NotFound';
-import { fetchBusinessData, fetchServices, fetchStaff, fetchAvailableSlots, submitBooking } from '../services/api';
+import { fetchBusinessData, fetchServices, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
 
 const BookingPage = ({ businessId: propBusinessId }) => {
@@ -44,21 +44,31 @@ const BookingPage = ({ businessId: propBusinessId }) => {
         setIsLoading(true);
         setError(null);
 
-        // Fetch business data
+        // Fetch business data (should include embedded services and staff)
         const businessData = await fetchBusinessData(businessId);
         if (!businessData) {
           throw new Error('Business not found');
         }
         setBusiness(businessData);
 
-        // Fetch services and staff in parallel
-        const [servicesData, staffData] = await Promise.all([
-          fetchServices(businessId),
-          fetchStaff(businessId)
-        ]);
-
-        setServices(servicesData);
-        setStaff(staffData);
+        // Extract services and staff from business data if available
+        if (businessData.services && businessData.staff) {
+          setServices(businessData.services);
+          setStaff(businessData.staff);
+        } else {
+          // Fallback: fetch services separately if not embedded
+          const servicesData = await fetchServices(businessId);
+          setServices(servicesData);
+          
+          // Staff data should be embedded in business data according to QR flow
+          // If not available, we'll need to handle this case
+          if (!businessData.staff) {
+            console.warn('Staff data not found in business data');
+            setStaff([]);
+          } else {
+            setStaff(businessData.staff);
+          }
+        }
       } catch (err) {
         console.error('Failed to load initial data:', err);
         setError(err.message);
@@ -103,11 +113,22 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     setSelectedTime(null);
   };
 
-  const handleStaffSelect = (staffMember) => {
+  const handleStaffSelect = async (staffMember) => {
     setSelectedStaff(staffMember);
     // Reset dependent selections
     setSelectedDate(null);
     setSelectedTime(null);
+    
+    // Load services specific to this staff member (matches QR flow)
+    try {
+      const staffServices = await fetchServicesByStaff(businessId, staffMember._id);
+      if (staffServices && staffServices.length > 0) {
+        setServices(staffServices);
+      }
+    } catch (error) {
+      console.error('Failed to load services for staff:', error);
+      // Keep existing services if fetch fails
+    }
   };
 
   const handleDateTimeSelect = (date, time) => {

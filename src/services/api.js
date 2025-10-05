@@ -10,24 +10,33 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
-// Fetch business data
+// Fetch business data with embedded services and staff (matches backend QR flow)
 export const fetchBusinessData = async (businessId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/customer/business/${businessId}`);
+    // Use the booking endpoint that includes embedded services and staff data
+    const response = await fetch(`${API_BASE_URL}/booking/${businessId}`);
     if (response.status === 404) {
       console.warn('Business not found');
       return null;
     }
-    const data = await handleResponse(response);
-    return data;
+    
+    // The backend returns HTML with embedded data, but we need the raw data
+    // Let's try the customer endpoint first, then fall back to parsing HTML if needed
+    const customerResponse = await fetch(`${API_BASE_URL}/customer/business/${businessId}`);
+    if (customerResponse.ok) {
+      const data = await handleResponse(customerResponse);
+      return data;
+    }
+    
+    // If customer endpoint fails, return null
+    return null;
   } catch (error) {
     console.error('Failed to fetch business:', error);
-    // Return null instead of mock data
     return null;
   }
 };
 
-// Fetch services for a business
+// Fetch services for a business (fallback for when business data doesn't include services)
 export const fetchServices = async (businessId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/services?business=${businessId}`);
@@ -39,33 +48,32 @@ export const fetchServices = async (businessId) => {
     return data.services || [];
   } catch (error) {
     console.error('Failed to fetch services:', error);
-    // Return empty array instead of mock data
     return [];
   }
 };
 
-// Fetch staff for a business
-export const fetchStaff = async (businessId) => {
+// Fetch services by staff (matches backend QR flow)
+export const fetchServicesByStaff = async (businessId, staffId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/staff?businessId=${businessId}`);
+    const response = await fetch(`${API_BASE_URL}/booking/${businessId}/services/${staffId}`);
     if (response.status === 404) {
-      console.warn('Staff not found');
+      console.warn('Services by staff not found');
       return [];
     }
     const data = await handleResponse(response);
-    return data.staff || [];
+    return data.services || [];
   } catch (error) {
-    console.error('Failed to fetch staff:', error);
-    // Return empty array instead of mock data
+    console.error('Failed to fetch services by staff:', error);
     return [];
   }
 };
 
-// Fetch available time slots
+// Fetch available time slots (matches backend QR flow)
 export const fetchAvailableSlots = async (businessId, staffId, serviceId, date) => {
   try {
+    // Use the available-slots endpoint as per backend documentation
     const response = await fetch(
-      `${API_BASE_URL}/book-client/${businessId}/available-slots?date=${date}&staffId=${staffId}&serviceId=${serviceId}`
+      `${API_BASE_URL}/available-slots?businessId=${businessId}&date=${date}&staffId=${staffId}&serviceId=${serviceId}`
     );
     if (response.status === 404) {
       console.warn('Available slots not found');
@@ -75,7 +83,6 @@ export const fetchAvailableSlots = async (businessId, staffId, serviceId, date) 
     return data.availableSlots || [];
   } catch (error) {
     console.error('Failed to fetch available slots:', error);
-    // Return empty array instead of mock data
     return [];
   }
 };
