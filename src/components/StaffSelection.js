@@ -23,17 +23,7 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
       <p className="section-description">Выберите мастера для записи</p>
       
       <div className="staff-grid">
-        {staff.map(staffMember => {
-          const generateRating = () => {
-            // Generate a realistic rating between 4.5-5.0
-            const rating = (Math.random() * 0.5 + 4.5).toFixed(1);
-            const reviews = Math.floor(Math.random() * 100) + 20;
-            return { rating, reviews };
-          };
-
-          const { rating, reviews } = generateRating();
-
-          return (
+        {staff.map(staffMember => (
             <div 
               key={staffMember._id}
               className={`staff-card ${selectedStaff?._id === staffMember._id ? 'selected' : ''}`}
@@ -62,14 +52,9 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
                 {staffMember.bio && (
                   <p className="staff-bio">{staffMember.bio}</p>
                 )}
-                <div className="staff-rating">
-                  <span>⭐ {rating}</span>
-                  <span>({reviews} отзывов)</span>
-                </div>
               </div>
             </div>
-          );
-        })}
+          ))}
       </div>
     </div>
   );

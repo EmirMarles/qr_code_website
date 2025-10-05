@@ -15,7 +15,7 @@ const BusinessInfo = ({ business }) => {
       return (
         <div key={day.day} className={`business-hour ${isToday ? 'today' : ''}`}>
           <span className="day">
-            {day.day} {isToday && '✅'}
+            {day.day}
           </span>
           <span className="hours">
             {day.isOpen ? `${day.open} - ${day.close}` : 'Закрыто'}
@@ -61,29 +61,21 @@ const BusinessInfo = ({ business }) => {
       <div className="business-details">
             {(business.location && business.location.address) || business.address ? (
               <div className="location">
-                <h3>📍 Адрес</h3>
+                <h3>Адрес</h3>
                 <button 
                   onClick={() => openInGoogleMaps(business.location?.address || business.address)}
                   className="address-link"
                   style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
                 >
-                  📍 {business.location?.address || business.address}
+                  {business.location?.address || business.address}
                   <span>→</span>
                 </button>
-                <div className="map-preview">
-                  <img 
-                    src={`https://via.placeholder.com/400x120/f1f5f9/64748b?text=Map+Preview`}
-                    alt="Map preview"
-                    onClick={() => openInGoogleMaps(business.location?.address || business.address)}
-                    style={{ cursor: 'pointer' }}
-                  />
-                </div>
               </div>
             ) : null}
 
         {business.businessHours && business.businessHours.length > 0 && (
           <div className="hours">
-            <h3>🕒 Часы работы</h3>
+            <h3>Часы работы</h3>
             <div className="hours-list">
               {formatBusinessHours(business.businessHours)}
             </div>
@@ -92,14 +84,14 @@ const BusinessInfo = ({ business }) => {
 
         {business.paymentOptions && business.paymentOptions.length > 0 && (
           <div className="payment-options">
-            <h3>💳 Способы оплаты</h3>
+            <h3>Способы оплаты</h3>
             <div className="payment-methods">
               {business.paymentOptions.map((method, index) => (
                 <span key={index} className="payment-method">
-                  {method === 'card' ? '💳 Карта' : 
-                   method === 'cash' ? '💵 Наличные' : 
-                   method === 'online' ? '💻 Онлайн' : 
-                   `💳 ${method}`}
+                  {method === 'card' ? 'Карта' : 
+                   method === 'cash' ? 'Наличные' : 
+                   method === 'online' ? 'Онлайн' : 
+                   method}
                 </span>
               ))}
             </div>
@@ -108,7 +100,7 @@ const BusinessInfo = ({ business }) => {
 
         {business.instagramLink && (
           <div className="social-links">
-            <h3>📱 Подписывайтесь</h3>
+            <h3>Подписывайтесь</h3>
             <a 
               href={business.instagramLink} 
               target="_blank" 
@@ -122,7 +114,7 @@ const BusinessInfo = ({ business }) => {
 
         {business.phone && (
           <div className="contact-info">
-            <h3>📞 Контакт</h3>
+            <h3>Контакт</h3>
             <a href={`tel:${business.phone}`} className="phone-link">
               {business.phone}
             </a>

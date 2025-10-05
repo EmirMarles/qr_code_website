@@ -26,11 +26,11 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
         {services.map(service => {
           const getServiceIcon = (name) => {
             const nameLower = name.toLowerCase();
-            if (nameLower.includes('стриж') || nameLower.includes('haircut')) return '✂️';
-            if (nameLower.includes('массаж') || nameLower.includes('massage')) return '💆‍♂️';
-            if (nameLower.includes('брит') || nameLower.includes('shave')) return '🪒';
-            if (nameLower.includes('уклад') || nameLower.includes('styling')) return '💇‍♂️';
-            return '💈';
+            if (nameLower.includes('стриж') || nameLower.includes('haircut')) return 'H';
+            if (nameLower.includes('массаж') || nameLower.includes('massage')) return 'M';
+            if (nameLower.includes('брит') || nameLower.includes('shave')) return 'S';
+            if (nameLower.includes('уклад') || nameLower.includes('styling')) return 'T';
+            return 'B';
           };
 
           return (
@@ -49,7 +49,7 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
                 )}
                 <div className="service-details">
                   <span className="service-duration">
-                    🕓 {service.duration || 60} мин
+                    {service.duration || 60} мин
                   </span>
                   <span className="service-price">
                     {service.price || 0} сум
