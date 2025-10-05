@@ -223,8 +223,28 @@ const BookingPage = ({ businessId: propBusinessId }) => {
           />
         )}
 
-        {/* Date & Time Selection */}
+        {/* Date Selection */}
         {selectedService && selectedStaff && (
+          <div className="date-picker-section">
+            <h3>Выберите дату</h3>
+            <p className="section-description">Выберите дату для записи</p>
+            <input
+              type="date"
+              value={selectedDate || ''}
+              onChange={(e) => {
+                const date = e.target.value;
+                setSelectedDate(date);
+                setSelectedTime(null);
+                setAvailableSlots([]);
+              }}
+              min={new Date().toISOString().split('T')[0]}
+              className="date-input"
+            />
+          </div>
+        )}
+
+        {/* Time Selection */}
+        {selectedService && selectedStaff && selectedDate && (
           <DateTimeSelection 
             availableSlots={availableSlots}
             onSelectDateTime={handleDateTimeSelect}

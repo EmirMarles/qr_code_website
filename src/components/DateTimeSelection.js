@@ -2,48 +2,20 @@ import React, { useState } from 'react';
 import './DateTimeSelection.css';
 
 const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, selectedTime }) => {
-  const [localSelectedDate, setLocalSelectedDate] = useState(selectedDate);
   const [localSelectedTime, setLocalSelectedTime] = useState(selectedTime);
-
-  const handleDateSelect = (date) => {
-    setLocalSelectedDate(date);
-    setLocalSelectedTime(null); // Reset time selection
-    onSelectDateTime(date, null);
-  };
 
   const handleTimeSelect = (time) => {
     setLocalSelectedTime(time);
-    onSelectDateTime(localSelectedDate, time);
+    onSelectDateTime(selectedDate, time);
   };
 
-  const getAvailableDates = () => {
+  const getAvailableTimes = () => {
     if (!availableSlots || availableSlots.length === 0) {
       return [];
     }
-    const dates = [...new Set(availableSlots.map(slot => slot.date))];
-    return dates.sort();
-  };
-
-  const getAvailableTimes = (date) => {
-    if (!availableSlots || availableSlots.length === 0) {
-      return [];
-    }
+    // The API returns slots as objects with startTime and endTime
     return availableSlots
-      .filter(slot => slot.date === date)
       .sort((a, b) => a.startTime.localeCompare(b.startTime));
-  };
-
-  const formatDate = (dateString) => {
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('ru-RU', { 
-        weekday: 'short', 
-        month: 'short', 
-        day: 'numeric' 
-      });
-    } catch (error) {
-      return dateString;
-    }
   };
 
   if (!availableSlots || availableSlots.length === 0) {
@@ -59,40 +31,22 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
 
   return (
     <div className="datetime-selection">
-      <h3>Выберите дату и время</h3>
-      <p className="section-description">Выберите удобную дату и время записи</p>
+      <h3>Выберите время</h3>
+      <p className="section-description">Выберите удобное время записи</p>
       
-      <div className="date-selection">
-        <h4>Выберите дату</h4>
-        <div className="dates-grid">
-          {getAvailableDates().map(date => (
+      <div className="time-selection">
+        <div className="times-grid">
+          {getAvailableTimes().map(timeSlot => (
             <button
-              key={date}
-              className={`date-btn ${localSelectedDate === date ? 'selected' : ''}`}
-              onClick={() => handleDateSelect(date)}
+              key={timeSlot.startTime}
+              className={`time-btn ${localSelectedTime === timeSlot.startTime ? 'selected' : ''}`}
+              onClick={() => handleTimeSelect(timeSlot.startTime)}
             >
-              {formatDate(date)}
+              {timeSlot.startTime}
             </button>
           ))}
         </div>
       </div>
-
-      {localSelectedDate && (
-        <div className="time-selection">
-          <h4>Выберите время</h4>
-          <div className="times-grid">
-            {getAvailableTimes(localSelectedDate).map(timeSlot => (
-              <button
-                key={timeSlot.startTime}
-                className={`time-btn ${localSelectedTime === timeSlot.startTime ? 'selected' : ''}`}
-                onClick={() => handleTimeSelect(timeSlot.startTime)}
-              >
-                {timeSlot.startTime}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -54,9 +54,9 @@ export const fetchServicesByStaff = async (businessId, staffId) => {
 // Fetch available time slots (matches backend QR flow)
 export const fetchAvailableSlots = async (businessId, staffId, serviceId, date) => {
   try {
-    // Use the available-slots endpoint as per backend documentation
+    // Use the correct book-client endpoint for available slots
     const response = await fetch(
-      `${API_BASE_URL}/available-slots?businessId=${businessId}&date=${date}&staffId=${staffId}&serviceId=${serviceId}`
+      `${API_BASE_URL}/book-client/${businessId}/available-slots?serviceId=${serviceId}&staffId=${staffId}&date=${date}`
     );
     if (response.status === 404) {
       console.warn('Available slots not found');
