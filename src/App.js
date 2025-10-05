@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import QRCodeLanding from './components/QRCodeLanding';
 import BookingPage from './components/BookingPage';
+import NotFound from './components/NotFound';
 import './App.css';
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
       setBusinessId(id);
       // Automatically show booking page for QR code scans
       setShowBookingPage(true);
+    } else {
+      // No businessId found, show 404 page
+      setShowBookingPage(false);
     }
   }, []);
 
@@ -27,6 +31,15 @@ function App() {
     return (
       <div className="App">
         <BookingPage businessId={businessId} />
+      </div>
+    );
+  }
+
+  // If no businessId is provided, show 404 page
+  if (!businessId) {
+    return (
+      <div className="App">
+        <NotFound />
       </div>
     );
   }

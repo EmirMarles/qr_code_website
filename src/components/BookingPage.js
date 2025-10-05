@@ -6,6 +6,7 @@ import StaffSelection from './StaffSelection';
 import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
+import NotFound from './NotFound';
 import { fetchBusinessData, fetchServices, fetchStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
 
@@ -174,14 +175,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   }
 
   if (!business) {
-    return (
-      <div className="booking-page">
-        <div className="error-container">
-          <h2>Business Not Found</h2>
-          <p>The requested business could not be found.</p>
-        </div>
-      </div>
-    );
+    return <NotFound />;
   }
 
   return (

@@ -15,16 +15,15 @@ export const fetchBusinessData = async (businessId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/businesses/${businessId}`);
     if (response.status === 404) {
-      console.warn('Business not found, using mock data');
-      return getMockBusinessData(businessId);
+      console.warn('Business not found');
+      return null;
     }
     const data = await handleResponse(response);
     return data;
   } catch (error) {
     console.error('Failed to fetch business:', error);
-    console.log('Using mock data for development');
-    // Return mock data for development
-    return getMockBusinessData(businessId);
+    // Return null instead of mock data
+    return null;
   }
 };
 
@@ -33,16 +32,15 @@ export const fetchServices = async (businessId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/services?business=${businessId}`);
     if (response.status === 404) {
-      console.warn('Services not found, using mock data');
-      return getMockServices();
+      console.warn('Services not found');
+      return [];
     }
     const data = await handleResponse(response);
     return data.services || [];
   } catch (error) {
     console.error('Failed to fetch services:', error);
-    console.log('Using mock data for development');
-    // Return mock data for development
-    return getMockServices();
+    // Return empty array instead of mock data
+    return [];
   }
 };
 
@@ -51,16 +49,15 @@ export const fetchStaff = async (businessId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/staff?businessId=${businessId}`);
     if (response.status === 404) {
-      console.warn('Staff not found, using mock data');
-      return getMockStaff();
+      console.warn('Staff not found');
+      return [];
     }
     const data = await handleResponse(response);
     return data.staff || [];
   } catch (error) {
     console.error('Failed to fetch staff:', error);
-    console.log('Using mock data for development');
-    // Return mock data for development
-    return getMockStaff();
+    // Return empty array instead of mock data
+    return [];
   }
 };
 
@@ -71,16 +68,15 @@ export const fetchAvailableSlots = async (businessId, staffId, serviceId, date) 
       `${API_BASE_URL}/book-client/${businessId}/available-slots?date=${date}&staffId=${staffId}&serviceId=${serviceId}`
     );
     if (response.status === 404) {
-      console.warn('Available slots not found, using mock data');
-      return getMockAvailableSlots(date);
+      console.warn('Available slots not found');
+      return [];
     }
     const data = await handleResponse(response);
     return data.availableSlots || [];
   } catch (error) {
     console.error('Failed to fetch available slots:', error);
-    console.log('Using mock data for development');
-    // Return mock data for development
-    return getMockAvailableSlots(date);
+    // Return empty array instead of mock data
+    return [];
   }
 };
 
@@ -103,19 +99,17 @@ export const submitBooking = async (bookingData) => {
       }),
     });
     if (response.status === 404 || response.status >= 500) {
-      console.warn('Booking endpoint not available, using mock response');
-      return getMockBookingResponse(bookingData);
+      throw new Error('Booking service not available');
     }
     return await handleResponse(response);
   } catch (error) {
     console.error('Failed to submit booking:', error);
-    console.log('Using mock response for development');
-    // Return mock success response for development
-    return getMockBookingResponse(bookingData);
+    throw error;
   }
 };
 
-// Mock data functions for development/testing
+// Mock data functions removed - no longer needed since we show 404 for missing data
+// eslint-disable-next-line no-unused-vars
 const getMockBusinessData = (businessId) => ({
   _id: businessId,
   name: "Barbershop",
@@ -137,6 +131,7 @@ const getMockBusinessData = (businessId) => ({
   instagramLink: "https://instagram.com/barbershop"
 });
 
+// eslint-disable-next-line no-unused-vars
 const getMockServices = () => [
   {
     _id: "service1",
@@ -168,6 +163,7 @@ const getMockServices = () => [
   }
 ];
 
+// eslint-disable-next-line no-unused-vars
 const getMockStaff = () => [
   {
     _id: "staff1",
@@ -215,6 +211,7 @@ const getMockStaff = () => [
   }
 ];
 
+// eslint-disable-next-line no-unused-vars
 const getMockAvailableSlots = (date) => {
   // Generate time slots for the selected date
   const times = [
@@ -230,6 +227,7 @@ const getMockAvailableSlots = (date) => {
   }));
 };
 
+// eslint-disable-next-line no-unused-vars
 const getMockBookingResponse = (bookingData) => ({
   appointmentId: `APT-${Date.now()}`,
   _id: `booking_${Date.now()}`,
