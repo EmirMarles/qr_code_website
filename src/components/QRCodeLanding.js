@@ -19,6 +19,19 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
       }
     };
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('businessId');
+    const qrId = urlParams.get('qr');
+    
+    if (id) {
+      setBusinessId(id);
+      setBusinessName(`Barbershop ${id}`);
+    }
+    
+    if (qrId) {
+      console.log('QR Code ID:', qrId);
+    }
+
     detectDevice();
   }, []);
 

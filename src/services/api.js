@@ -19,7 +19,7 @@ export const fetchBusinessData = async (businessId) => {
       return getMockBusinessData(businessId);
     }
     // For the booking endpoint, we need to parse the HTML response
-    const html = await response.text();
+    // const html = await response.text();
     // Extract business data from the HTML or use mock data
     return getMockBusinessData(businessId);
   } catch (error) {

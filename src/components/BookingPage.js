@@ -9,7 +9,7 @@ import BookingSuccessModal from './BookingSuccessModal';
 import { fetchBusinessData, fetchServices, fetchStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
 
-const BookingPage = () => {
+const BookingPage = ({ businessId: propBusinessId }) => {
   const [business, setBusiness] = useState(null);
   const [services, setServices] = useState([]);
   const [staff, setStaff] = useState([]);
@@ -27,9 +27,16 @@ const BookingPage = () => {
   const [error, setError] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [bookingResult, setBookingResult] = useState(null);
-
-  // Get business ID from URL params or use default
-  const businessId = new URLSearchParams(window.location.search).get('businessId') || 'default-business-id';
+  
+  // Get business ID from prop or URL parameters
+  const getBusinessId = () => {
+    if (propBusinessId) return propBusinessId;
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('businessId') || 'default-business-id';
+  };
+  
+  const businessId = getBusinessId();
 
   useEffect(() => {
     const loadInitialData = async () => {
