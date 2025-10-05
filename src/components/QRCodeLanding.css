@@ -161,7 +161,7 @@
   margin-bottom: 25px;
 }
 
-.app-btn {
+.app-btn, .book-btn {
   width: 100%;
   padding: 16px 24px;
   border: none;
@@ -175,6 +175,12 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.book-btn.secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 2px solid #d1d5db;
 }
 
 .app-btn.primary {

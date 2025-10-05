@@ -29,24 +29,32 @@ export const isMobile = () => {
 };
 
 /**
- * Generate smart redirect URLs for QR codes
+ * App store URLs for BookMe app
+ */
+export const APP_STORE_URLS = {
+  ios: 'https://apps.apple.com/uz/app/bookme-booking-app/id6749165301',
+  android: 'https://play.google.com/store/apps/details?id=com.javo3377.bookme',
+  web: 'https://bookme.app'
+};
+
+/**
+ * Generate deep link for BookMe app
+ * @param {string} businessId - Business ID
+ * @returns {string} Deep link URL
+ */
+export const generateDeepLink = (businessId) => {
+  return `bookme://business/${businessId}`;
+};
+
+/**
+ * Generate web booking URL
  * @param {string} businessId - Business ID
  * @param {string} qrCodeId - QR Code ID (optional)
- * @returns {object} URLs for different platforms
+ * @returns {string} Web booking URL
  */
-export const generateSmartRedirectUrls = (businessId, qrCodeId = null) => {
-  const baseUrl = window.location.origin;
+export const generateWebBookingUrl = (businessId, qrCodeId) => {
   const qrParam = qrCodeId ? `&qr=${qrCodeId}` : '';
-  
-  return {
-    web: `${baseUrl}?businessId=${businessId}${qrParam}`,
-    ios: `your-app-scheme://booking?businessId=${businessId}${qrParam}`,
-    android: `your-app-scheme://booking?businessId=${businessId}${qrParam}`,
-    appStore: {
-      ios: 'https://apps.apple.com/app/your-app-id',
-      android: 'https://play.google.com/store/apps/details?id=your.package.name'
-    }
-  };
+  return `${window.location.origin}/?businessId=${businessId}${qrParam}`;
 };
 
 /**
@@ -98,56 +106,142 @@ export const getQRCodeInfo = async (qrCodeId) => {
 };
 
 /**
- * Attempt to open the native app
+ * Attempt to open the native app with fallback options
  * @param {string} businessId - Business ID
  * @param {string} qrCodeId - QR Code ID (optional)
- * @returns {Promise} - Whether app opened successfully
  */
-export const attemptAppRedirect = async (businessId, qrCodeId = null) => {
+export const attemptAppRedirect = (businessId, qrCodeId) => {
   const platform = detectPlatform();
   
   if (platform === 'desktop') {
-    return false;
+    // Desktop users go directly to web booking
+    window.location.href = generateWebBookingUrl(businessId, qrCodeId);
+    return;
+  }
+
+  // Mobile users: try deep link first
+  const deepLink = generateDeepLink(businessId);
+  
+  // Track QR scan
+  if (qrCodeId) {
+    trackQRScan(qrCodeId);
   }
   
-  const urls = generateSmartRedirectUrls(businessId, qrCodeId);
-  const appUrl = urls[platform];
+  // Try to open the app immediately
+  window.location.href = deepLink;
   
-  try {
-    // Track the scan attempt
-    if (qrCodeId) {
-      await trackQRScan(qrCodeId);
-    }
-    
-    // Create hidden iframe to attempt app launch
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = appUrl;
-    document.body.appendChild(iframe);
-    
-    // Set timeout to detect if app opened
-    return new Promise((resolve) => {
-      const timeout = setTimeout(() => {
-        // App didn't open, clean up and resolve false
-        document.body.removeChild(iframe);
-        resolve(false);
-      }, 2000);
-      
-      // Listen for visibility change (app opened)
-      const handleVisibilityChange = () => {
-        if (document.hidden) {
-          clearTimeout(timeout);
-          document.removeEventListener('visibilitychange', handleVisibilityChange);
-          resolve(true);
-        }
-      };
-      
-      document.addEventListener('visibilitychange', handleVisibilityChange);
-    });
-  } catch (error) {
-    console.error('App redirect failed:', error);
-    return false;
-  }
+  // Set a timeout to show fallback options if app doesn't open
+  setTimeout(() => {
+    showFallbackOptions(businessId, qrCodeId, platform);
+  }, 2000);
+};
+
+/**
+ * Show fallback options when app doesn't open
+ * @param {string} businessId - Business ID
+ * @param {string} qrCodeId - QR Code ID (optional)
+ * @param {string} platform - Device platform
+ */
+export const showFallbackOptions = (businessId, qrCodeId, platform) => {
+  // Create fallback UI
+  const fallbackContainer = document.createElement('div');
+  fallbackContainer.id = 'app-redirect-fallback';
+  fallbackContainer.innerHTML = `
+    <div style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    ">
+      <div style="
+        background: white;
+        border-radius: 16px;
+        padding: 24px;
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+      ">
+        <h2 style="
+          margin: 0 0 16px 0;
+          font-size: 20px;
+          font-weight: 600;
+          color: #1f2937;
+        ">Открываем приложение BookMe...</h2>
+        
+        <p style="
+          margin: 0 0 24px 0;
+          color: #6b7280;
+          font-size: 14px;
+          line-height: 1.5;
+        ">Приложение не открылось? Выберите вариант:</p>
+        
+        <div style="
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        ">
+          <button id="download-app-btn" style="
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+          ">Скачать приложение</button>
+          
+          <button id="book-online-btn" style="
+            background: #f3f4f6;
+            color: #374151;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+          ">Записаться онлайн</button>
+          
+          <button id="close-fallback-btn" style="
+            background: transparent;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 16px;
+            cursor: pointer;
+          ">Закрыть</button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(fallbackContainer);
+  
+  // Add event listeners
+  const downloadBtn = document.getElementById('download-app-btn');
+  const bookOnlineBtn = document.getElementById('book-online-btn');
+  const closeBtn = document.getElementById('close-fallback-btn');
+  
+  downloadBtn.addEventListener('click', () => {
+    const storeUrl = platform === 'ios' ? APP_STORE_URLS.ios : APP_STORE_URLS.android;
+    window.open(storeUrl, '_blank');
+  });
+  
+  bookOnlineBtn.addEventListener('click', () => {
+    window.location.href = generateWebBookingUrl(businessId, qrCodeId);
+  });
+  
+  closeBtn.addEventListener('click', () => {
+    document.body.removeChild(fallbackContainer);
+  });
 };
 
 /**
