@@ -5,6 +5,10 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
   const [device, setDevice] = useState('unknown');
   const [appDetected, setAppDetected] = useState(false);
   const [redirectAttempted, setRedirectAttempted] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [businessId, setBusinessId] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [businessName, setBusinessName] = useState('Loading Business...');
 
   useEffect(() => {
     const detectDevice = () => {
