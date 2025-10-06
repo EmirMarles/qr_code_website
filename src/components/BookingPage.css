@@ -83,20 +83,21 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  border: 2px solid #d1d5db;
-  background: white;
-  color: #6b7280;
+  border: 2px solid transparent;
+  /* Instagram-like gradient */
+  background: radial-gradient(circle at 30% 30%, #feda75 0%, #f58529 25%, #dd2a7b 50%, #8134af 75%, #515bd4 100%);
+  color: #ffffff; /* make SVG white to pop on gradient */
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .instagram-button:hover {
-  border-color: #ec4899; /* pink accent */
-  color: #ec4899;
-  background: #fff1f7;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Date Picker Section */
