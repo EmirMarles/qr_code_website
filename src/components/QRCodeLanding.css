@@ -56,6 +56,24 @@
   text-align: center;
 }
 
+.booking-welcome h2 {
+  font-size: 28px;
+  color: #111827;
+  margin: 0 0 6px 0;
+  font-weight: 800;
+}
+
+.welcome-sub {
+  color: #374151;
+  margin: 0 0 6px 0;
+}
+
+.welcome-wait {
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
 /* Powered by */
 .powered-by {
   border-top: 1px solid #eef2f7;
@@ -86,6 +104,10 @@
 
 .bookme-mark {
   display: inline-flex;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6 50%, #ec4899);
 }
 
 .bookme-word {
@@ -94,6 +116,12 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.bookme-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
 }
 
 /* Desktop Message */

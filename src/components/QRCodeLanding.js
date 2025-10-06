@@ -27,16 +27,7 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
     }
   }, []);
 
-  const handleBookNow = () => {
-    onBookWithoutRegistration();
-  };
-
-  const handleDownloadApp = () => {
-    const platform = parseQRCodeFromUrl().platform;
-    const { APP_STORE_URLS } = require('../utils/deviceDetection');
-    const storeUrl = platform === 'ios' ? APP_STORE_URLS.ios : APP_STORE_URLS.android;
-    window.open(storeUrl, '_blank');
-  };
+  // No actions on landing; we only show welcome + branding while the app may redirect
 
   return (
     <div className="qr-landing">
@@ -45,23 +36,8 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
         <div className="qr-content">
           <div className="booking-welcome">
             <h2>Добро пожаловать!</h2>
-            <p>Готовы записаться на прием? Нажмите ниже, чтобы начать.</p>
-            
-                <div className="booking-action">
-                  <button 
-                    className="book-btn primary"
-                    onClick={handleBookNow}
-                  >
-                    Записаться на прием
-                  </button>
-                  <button 
-                    className="book-btn secondary"
-                    onClick={handleDownloadApp}
-                  >
-                    Скачать приложение
-                  </button>
-                  <p className="booking-note">Быстрая и простая онлайн запись</p>
-                </div>
+            <p className="welcome-sub">Быстрая и простая онлайн запись</p>
+            <p className="welcome-wait">подождите пару секунд…</p>
           </div>
         </div>
         {/* Branding */}
@@ -74,20 +50,10 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
             aria-label="Powered by BookMe"
           >
             <span className="powered-text">Powered by</span>
-            <span className="bookme-mark" aria-hidden="true">
-              {/* Simple BookMe mark (inline SVG) */}
-              <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="bmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#3b82f6" />
-                    <stop offset="50%" stopColor="#8b5cf6" />
-                    <stop offset="100%" stopColor="#ec4899" />
-                  </linearGradient>
-                </defs>
-                <rect x="2" y="3" width="20" height="18" rx="4" fill="url(#bmGrad)"/>
-                <path d="M7 8h6M7 12h10M7 16h8" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </span>
+            {/* Prefer brand logo from public folder if available */}
+            <img src="/bookme-logo.png" alt="BookMe logo" className="bookme-logo" onError={(e)=>{e.currentTarget.style.display='none';}} />
+            {/* Fallback gradient mark if image not found */}
+            <span className="bookme-mark" aria-hidden="true"></span>
             <span className="bookme-word">BookMe</span>
           </a>
         </div>
