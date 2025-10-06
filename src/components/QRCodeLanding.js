@@ -50,10 +50,8 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
             aria-label="Powered by BookMe"
           >
             <span className="powered-text">Powered by</span>
-            {/* Prefer brand logo from public folder if available */}
-            <img src="/bookme-logo.png" alt="BookMe logo" className="bookme-logo" onError={(e)=>{e.currentTarget.style.display='none';}} />
-            {/* Fallback gradient mark if image not found */}
-            <span className="bookme-mark" aria-hidden="true"></span>
+            {/* Brand logo from public folder */}
+            <img src="/BookMeLogo.jpg" alt="BookMe logo" className="bookme-logo" />
             <span className="bookme-word">BookMe</span>
           </a>
         </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import BusinessInfoModal from './BusinessInfoModal';
 import ServiceSelection from './ServiceSelection';
 import StaffSelection from './StaffSelection';
@@ -102,6 +102,20 @@ const BookingPage = ({ businessId: propBusinessId }) => {
 
     loadAvailableSlots();
   }, [businessId, selectedService, selectedStaff, selectedDate]);
+
+  // Staff filtered by selected service
+  const filteredStaff = useMemo(() => {
+    // If no service selected yet or staff not loaded, show none
+    if (!selectedService || !Array.isArray(staff)) return [];
+    // If service contains a list of staff IDs, filter by it
+    const staffIdsForService = selectedService.staff;
+    if (Array.isArray(staffIdsForService) && staffIdsForService.length > 0) {
+      const idSet = new Set(staffIdsForService.map(String));
+      return staff.filter(s => idSet.has(String(s._id)));
+    }
+    // No mapping provided -> show none
+    return [];
+  }, [selectedService, staff]);
 
   const handleServiceSelect = (service) => {
     setSelectedService(service);
@@ -273,7 +287,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
         {/* Staff Selection */}
         {selectedService && (
           <StaffSelection 
-            staff={staff}
+            staff={filteredStaff}
             onSelectStaff={handleStaffSelect}
             selectedStaff={selectedStaff}
           />
