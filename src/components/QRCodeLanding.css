@@ -56,6 +56,46 @@
   text-align: center;
 }
 
+/* Powered by */
+.powered-by {
+  border-top: 1px solid #eef2f7;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.powered-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.powered-link:hover {
+  color: #374151;
+}
+
+.powered-text {
+  font-size: 12px;
+}
+
+.bookme-mark {
+  display: inline-flex;
+}
+
+.bookme-word {
+  font-size: 12px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6 50%, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
 /* Desktop Message */
 .desktop-message {
   animation: fadeIn 0.8s ease-out;

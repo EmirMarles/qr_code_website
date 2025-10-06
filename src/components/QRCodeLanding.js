@@ -64,6 +64,33 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
                 </div>
           </div>
         </div>
+        {/* Branding */}
+        <div className="powered-by">
+          <a
+            href="https://bookme.uz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="powered-link"
+            aria-label="Powered by BookMe"
+          >
+            <span className="powered-text">Powered by</span>
+            <span className="bookme-mark" aria-hidden="true">
+              {/* Simple BookMe mark (inline SVG) */}
+              <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="bmGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#3b82f6" />
+                    <stop offset="50%" stopColor="#8b5cf6" />
+                    <stop offset="100%" stopColor="#ec4899" />
+                  </linearGradient>
+                </defs>
+                <rect x="2" y="3" width="20" height="18" rx="4" fill="url(#bmGrad)"/>
+                <path d="M7 8h6M7 12h10M7 16h8" stroke="#ffffff" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </span>
+            <span className="bookme-word">BookMe</span>
+          </a>
+        </div>
       </div>
     </div>
   );
