@@ -144,8 +144,23 @@ const BookingPage = ({ businessId: propBusinessId }) => {
         date: selectedDate,
         startTime: selectedTime
       });
+      // Normalize response for success modal to avoid N/A/Invalid Date
+      const bookingForModal = {
+        appointmentId: result?.appointmentId || result?._id || result?.id || result?.bookingId,
+        service: result?.service || {
+          name: selectedService?.name,
+          price: selectedService?.price
+        },
+        staff: result?.staff || {
+          fullName: selectedStaff?.fullName
+        },
+        date: result?.date || result?.bookingDate || selectedDate,
+        startTime: result?.startTime || result?.time || selectedTime,
+        total: result?.total || result?.price || selectedService?.price,
+        status: result?.status,
+      };
 
-      setBookingResult(result);
+      setBookingResult(bookingForModal);
       setShowSuccessModal(true);
     } catch (err) {
       console.error('Booking failed:', err);
@@ -220,12 +235,31 @@ const BookingPage = ({ businessId: propBusinessId }) => {
                   {business.location?.address || business.address}
                 </div>
               </div>
-              <button 
-                className="info-button"
-                onClick={() => setShowBusinessInfo(true)}
-              >
-                i
-              </button>
+              <div className="header-icons">
+                <button 
+                  className="info-button"
+                  onClick={() => setShowBusinessInfo(true)}
+                  aria-label="Business info"
+                >
+                  i
+                </button>
+                {business?.instagramLink && (
+                  <a 
+                    href={business.instagramLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="instagram-button"
+                    aria-label="Instagram"
+                  >
+                    {/* Instagram glyph */}
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M7 2H17C20 2 22 4 22 7V17C22 20 20 22 17 22H7C4 22 2 20 2 17V7C2 4 4 2 7 2Z" stroke="currentColor" strokeWidth="2"/>
+                      <path d="M12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8Z" stroke="currentColor" strokeWidth="2"/>
+                      <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+                    </svg>
+                  </a>
+                )}
+              </div>
             </header>
 
 
