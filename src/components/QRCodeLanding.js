@@ -28,6 +28,7 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
   }, []);
 
   // No actions on landing; we only show welcome + branding while the app may redirect
+  const [logoError, setLogoError] = useState(false);
 
   return (
     <div className="qr-landing">
@@ -50,8 +51,17 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
             aria-label="Powered by BookMe"
           >
             <span className="powered-text">Powered by</span>
-            {/* Brand logo from public folder */}
-            <img src="/BookMeLogo.jpg" alt="BookMe logo" className="bookme-logo" />
+            {/* Brand logo from public folder; fallback to gradient mark if missing */}
+            {!logoError ? (
+              <img 
+                src="/BookMeLogo.jpg" 
+                alt="BookMe logo" 
+                className="bookme-logo" 
+                onError={() => setLogoError(true)}
+              />
+            ) : (
+              <span className="bookme-mark" aria-hidden="true" />
+            )}
             <span className="bookme-word">BookMe</span>
           </a>
         </div>
