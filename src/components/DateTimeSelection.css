@@ -60,20 +60,20 @@
 
 .date-btn:hover,
 .time-btn:hover {
-  border-color: #3b82f6;
-  background: #eff6ff;
-  color: #1d4ed8;
+  border-color: #2b4756;
+  background: #f0f4f7;
+  color: #2b4756;
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 4px 8px rgba(43, 71, 86, 0.15);
 }
 
 .date-btn.selected,
 .time-btn.selected {
-  border-color: #3b82f6;
-  background: #3b82f6;
+  border-color: #2b4756;
+  background: #2b4756;
   color: white;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(43, 71, 86, 0.3);
 }
 
 .no-slots {
