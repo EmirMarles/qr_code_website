@@ -87,6 +87,17 @@
   line-height: 1.6;
 }
 
+.loading-slots {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}
+
+.loading-slots p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .datetime-selection {

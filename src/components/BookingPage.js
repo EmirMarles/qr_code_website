@@ -456,6 +456,9 @@ const BookingPage = ({ businessId: propBusinessId }) => {
             selectedDate={selectedDate}
             selectedTime={selectedTime}
             onTimeSlotSelected={handleTimeSlotSelected}
+            businessId={businessId}
+            selectedStaff={selectedStaff}
+            selectedService={selectedService}
           />
         )}
 
