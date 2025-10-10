@@ -58,7 +58,49 @@ const BookingPage = ({ businessId: propBusinessId }) => {
           setServices(businessData.services);
         } else {
           console.warn('Services not found in business data');
-          setServices([]);
+          // Use sample services with categories for demonstration
+          setServices([
+            {
+              _id: "service1",
+              name: "Haircut",
+              category: "Hair",
+              duration: 60,
+              price: 500000,
+              staff: ["staff1", "staff2"]
+            },
+            {
+              _id: "service2", 
+              name: "Massage",
+              category: "Wellness",
+              duration: 60,
+              price: 200000,
+              staff: ["staff3", "staff4"]
+            },
+            {
+              _id: "service3",
+              name: "Классический массаж",
+              category: "Wellness", 
+              duration: 45,
+              price: 200000,
+              staff: ["staff3", "staff4"]
+            },
+            {
+              _id: "service4",
+              name: "Beard Trim",
+              category: "Hair",
+              duration: 30,
+              price: 150000,
+              staff: ["staff1", "staff2"]
+            },
+            {
+              _id: "service5",
+              name: "Facial Treatment",
+              category: "Skincare",
+              duration: 90,
+              price: 300000,
+              staff: ["staff5"]
+            }
+          ]);
         }
         
         if (businessData.staff && Array.isArray(businessData.staff)) {

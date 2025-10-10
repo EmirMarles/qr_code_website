@@ -4,8 +4,7 @@ import './ServiceSelection.css';
 const ServiceSelection = ({ services, onSelectService, selectedService }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
-  // const [showAll, setShowAll] = useState(false); // Removed unused state
-  const [expandedCategories, setExpandedCategories] = useState({});
+  const [activeCategory, setActiveCategory] = useState('all');
 
   const handleServiceSelect = (service) => {
     onSelectService(service);
@@ -16,14 +15,11 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
     setIsCollapsed(!isCollapsed);
   };
 
-  const toggleCategory = (categoryName) => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      [categoryName]: !prev[categoryName]
-    }));
+  const handleCategorySelect = (categoryName) => {
+    setActiveCategory(categoryName);
   };
 
-  // Group services by category (only services with categories)
+  // Group services by category for horizontal display
   const groupServicesByCategory = (servicesList) => {
     const grouped = {};
     const uncategorized = [];
@@ -49,14 +45,22 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
   ) || [];
 
   const { grouped: groupedServices, uncategorized: uncategorizedServices } = groupServicesByCategory(filteredServices);
-  const categoryNames = Object.keys(groupedServices).sort();
+  const categoryNames = ['all', ...Object.keys(groupedServices).sort()];
 
-  // Expand first category by default
-  useEffect(() => {
-    if (categoryNames.length > 0 && Object.keys(expandedCategories).length === 0) {
-      setExpandedCategories({ [categoryNames[0]]: true });
+  // Get services for active category
+  const getServicesForActiveCategory = () => {
+    if (activeCategory === 'all') {
+      return filteredServices;
     }
-  }, [categoryNames, expandedCategories]);
+    return groupedServices[activeCategory] || [];
+  };
+
+  // Set first category as active by default
+  useEffect(() => {
+    if (categoryNames.length > 1 && activeCategory === 'all') {
+      setActiveCategory(categoryNames[1]); // Set first real category as active
+    }
+  }, [categoryNames, activeCategory]);
 
   if (!services || services.length === 0) {
     return (
@@ -122,111 +126,64 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
             />
           </div>
 
-          {/* Uncategorized services - displayed normally */}
-          {uncategorizedServices.length > 0 && (
-            <div className="services-grid compact">
-              {uncategorizedServices.map(service => {
-                const getServiceIcon = (name) => {
-                  const nameLower = name.toLowerCase();
-                  if (nameLower.includes('стриж') || nameLower.includes('haircut')) return 'H';
-                  if (nameLower.includes('массаж') || nameLower.includes('massage')) return 'M';
-                  if (nameLower.includes('брит') || nameLower.includes('shave')) return 'S';
-                  if (nameLower.includes('уклад') || nameLower.includes('styling')) return 'T';
-                  return 'B';
-                };
-
-                return (
-                  <div 
-                    key={service._id}
-                    className={`service-card compact ${selectedService?._id === service._id ? 'selected' : ''}`}
-                    onClick={() => handleServiceSelect(service)}
-                  >
-                    <div className="service-icon">
-                      {getServiceIcon(service.name)}
-                    </div>
-                    <div className="service-info">
-                      <h4>{service.name}</h4>
-                      <div className="service-details">
-                        <span className="service-duration">
-                          {service.duration || 60} мин
-                        </span>
-                        <span className="service-price">
-                          {service.price || 0} сум
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Categorized services - displayed in accordion */}
-          {categoryNames.length > 0 && (
-            <div className="services-accordion">
+          {/* Horizontal Category Tabs */}
+          {categoryNames.length > 1 && (
+            <div className="category-tabs">
               {categoryNames.map(categoryName => {
-                const categoryServices = groupedServices[categoryName];
-                const isExpanded = expandedCategories[categoryName] || false;
+                const isActive = activeCategory === categoryName;
+                const displayName = categoryName === 'all' ? 'Все' : categoryName;
+                const serviceCount = categoryName === 'all' ? filteredServices.length : (groupedServices[categoryName]?.length || 0);
                 
                 return (
-                  <div key={categoryName} className="category-section">
-                    <div 
-                      className="category-header"
-                      onClick={() => toggleCategory(categoryName)}
-                    >
-                      <div className="category-title">
-                        <span className="category-name">{categoryName}</span>
-                        <span className="category-count">({categoryServices.length})</span>
-                      </div>
-                      <div className={`category-arrow ${isExpanded ? 'expanded' : ''}`}>
-                        ▼
-                      </div>
-                    </div>
-                    
-                    {isExpanded && (
-                      <div className="category-content">
-                        <div className="services-grid compact">
-                          {categoryServices.map(service => {
-                            const getServiceIcon = (name) => {
-                              const nameLower = name.toLowerCase();
-                              if (nameLower.includes('стриж') || nameLower.includes('haircut')) return 'H';
-                              if (nameLower.includes('массаж') || nameLower.includes('massage')) return 'M';
-                              if (nameLower.includes('брит') || nameLower.includes('shave')) return 'S';
-                              if (nameLower.includes('уклад') || nameLower.includes('styling')) return 'T';
-                              return 'B';
-                            };
-
-                            return (
-                              <div 
-                                key={service._id}
-                                className={`service-card compact ${selectedService?._id === service._id ? 'selected' : ''}`}
-                                onClick={() => handleServiceSelect(service)}
-                              >
-                                <div className="service-icon">
-                                  {getServiceIcon(service.name)}
-                                </div>
-                                <div className="service-info">
-                                  <h4>{service.name}</h4>
-                                  <div className="service-details">
-                                    <span className="service-duration">
-                                      {service.duration || 60} мин
-                                    </span>
-                                    <span className="service-price">
-                                      {service.price || 0} сум
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  <button
+                    key={categoryName}
+                    className={`category-tab ${isActive ? 'active' : ''}`}
+                    onClick={() => handleCategorySelect(categoryName)}
+                  >
+                    {displayName}
+                    {serviceCount > 0 && <span className="tab-count">({serviceCount})</span>}
+                  </button>
                 );
               })}
             </div>
           )}
+
+          {/* Services Grid for Active Category */}
+          <div className="services-grid compact">
+            {getServicesForActiveCategory().map(service => {
+              const getServiceIcon = (name) => {
+                const nameLower = name.toLowerCase();
+                if (nameLower.includes('стриж') || nameLower.includes('haircut')) return 'H';
+                if (nameLower.includes('массаж') || nameLower.includes('massage')) return 'M';
+                if (nameLower.includes('брит') || nameLower.includes('shave')) return 'S';
+                if (nameLower.includes('уклад') || nameLower.includes('styling')) return 'T';
+                return 'B';
+              };
+
+              return (
+                <div 
+                  key={service._id}
+                  className={`service-card compact ${selectedService?._id === service._id ? 'selected' : ''}`}
+                  onClick={() => handleServiceSelect(service)}
+                >
+                  <div className="service-icon">
+                    {getServiceIcon(service.name)}
+                  </div>
+                  <div className="service-info">
+                    <h4>{service.name}</h4>
+                    <div className="service-details">
+                      <span className="service-duration">
+                        {service.duration || 60} мин
+                      </span>
+                      <span className="service-price">
+                        {service.price || 0} сум
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
         </>
       )}
