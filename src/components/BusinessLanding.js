@@ -25,6 +25,11 @@ const BusinessLanding = ({ businessId, onStartBooking }) => {
           <div className="dropdown-chevron">▼</div>
         </div>
 
+        {/* Tagline */}
+        <div className="business-tagline">
+          Barbershop & Style
+        </div>
+
         {/* Address */}
         <div className="business-address">
           {business.address}

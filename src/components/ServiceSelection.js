@@ -75,7 +75,8 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
         <div className="section-title">
           <h3>Выберите услугу</h3>
           {selectedService && (
-            <button className="collapse-btn" onClick={handleToggleCollapse}>
+            <button className="change-btn" onClick={handleToggleCollapse}>
+              <span className="change-icon">✏️</span>
               {isCollapsed ? 'Изменить' : 'Свернуть'}
             </button>
           )}
@@ -172,10 +173,15 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
                         {service.duration || 60} мин
                       </span>
                       <span className="service-price">
-                        {service.price || 0} сум
+                        {service.price ? service.price.toLocaleString() : '0'} сум
                       </span>
                     </div>
                   </div>
+                  {selectedService?._id === service._id && (
+                    <div className="selection-checkmark">
+                      ✓
+                    </div>
+                  )}
                 </div>
               );
             })}

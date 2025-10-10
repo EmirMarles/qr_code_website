@@ -6,6 +6,7 @@ import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
 import ProgressIndicator from './ProgressIndicator';
+import StickyCTA from './StickyCTA';
 import NotFound from './NotFound';
 import { fetchBusinessData, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
@@ -29,6 +30,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [bookingResult, setBookingResult] = useState(null);
   const [showBusinessInfo, setShowBusinessInfo] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   // Get business ID from prop or URL parameters
   const getBusinessId = () => {
@@ -208,6 +210,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
 
   const handleBookingSubmit = async (bookingData) => {
     try {
+      setIsSubmitting(true);
       const result = await submitBooking({
         ...bookingData,
         business: businessId,
@@ -238,7 +241,39 @@ const BookingPage = ({ businessId: propBusinessId }) => {
       console.error('Booking failed:', err);
       // Show specific error message from backend
       alert(`Ошибка при создании записи: ${err.message}`);
+    } finally {
+      setIsSubmitting(false);
     }
+  };
+
+  const handleContinue = () => {
+    // Auto-advance logic based on current step
+    if (selectedService && !selectedStaff) {
+      // Move to staff selection
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (selectedService && selectedStaff && !selectedDate) {
+      // Move to date selection
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (selectedService && selectedStaff && selectedDate && !selectedTime) {
+      // Move to time selection
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const canContinue = () => {
+    if (!selectedService) return false;
+    if (selectedService && !selectedStaff) return true;
+    if (selectedService && selectedStaff && !selectedDate) return true;
+    if (selectedService && selectedStaff && selectedDate && !selectedTime) return true;
+    return false;
+  };
+
+  const getContinueButtonText = () => {
+    if (!selectedService) return "Выберите услугу";
+    if (selectedService && !selectedStaff) return "Выберите мастера";
+    if (selectedService && selectedStaff && !selectedDate) return "Выберите дату";
+    if (selectedService && selectedStaff && selectedDate && !selectedTime) return "Выберите время";
+    return "Продолжить";
   };
 
   const handleCloseSuccessModal = () => {
@@ -409,6 +444,16 @@ const BookingPage = ({ businessId: propBusinessId }) => {
                 onClose={handleCloseSuccessModal}
               />
             )}
+
+            {/* Sticky CTA */}
+            <StickyCTA
+              currentStep={getCurrentStep()}
+              totalSteps={5}
+              onContinue={handleContinue}
+              canContinue={canContinue()}
+              buttonText={getContinueButtonText()}
+              isLoading={isSubmitting}
+            />
       </div>
     </div>
   );

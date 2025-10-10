@@ -3,11 +3,11 @@ import './ProgressIndicator.css';
 
 const ProgressIndicator = ({ currentStep, totalSteps }) => {
   const steps = [
-    { id: 1, label: 'Услуга', icon: 'S' },
-    { id: 2, label: 'Мастер', icon: 'M' },
-    { id: 3, label: 'Дата', icon: 'D' },
-    { id: 4, label: 'Время', icon: 'T' },
-    { id: 5, label: 'Запись', icon: 'B' }
+    { id: 1, label: 'Услуга', icon: '🪒', tooltip: 'Выберите услугу' },
+    { id: 2, label: 'Мастер', icon: '💈', tooltip: 'Выберите мастера' },
+    { id: 3, label: 'Дата', icon: '📅', tooltip: 'Выберите дату' },
+    { id: 4, label: 'Время', icon: '⏰', tooltip: 'Выберите время' },
+    { id: 5, label: 'Запись', icon: '✅', tooltip: 'Подтвердите запись' }
   ];
 
   const progress = (currentStep / totalSteps) * 100;
@@ -26,9 +26,10 @@ const ProgressIndicator = ({ currentStep, totalSteps }) => {
           <div 
             key={step.id}
             className={`progress-step ${index + 1 <= currentStep ? 'completed' : ''} ${index + 1 === currentStep ? 'current' : ''}`}
+            title={step.tooltip}
           >
             <div className="step-icon">
-              {step.icon}
+              {index + 1 < currentStep ? '✓' : step.icon}
             </div>
             <span className="step-label">{step.label}</span>
           </div>
