@@ -31,6 +31,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   const [bookingResult, setBookingResult] = useState(null);
   const [showBusinessInfo, setShowBusinessInfo] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
   
   // Get business ID from prop or URL parameters
   const getBusinessId = () => {
@@ -235,8 +236,23 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   };
 
   const handleTimeSlotSelected = () => {
-    setCurrentStep(4); // Move to booking form after time selection
+    setCurrentStep(5); // Move to booking form after time selection
   };
+
+  // Update current step based on selections
+  useEffect(() => {
+    if (selectedService && selectedStaff && selectedDate && selectedTime) {
+      setCurrentStep(5); // Booking form
+    } else if (selectedService && selectedStaff && selectedDate) {
+      setCurrentStep(4); // Time selection
+    } else if (selectedService && selectedStaff) {
+      setCurrentStep(3); // Date selection
+    } else if (selectedService) {
+      setCurrentStep(2); // Staff selection
+    } else {
+      setCurrentStep(1); // Service selection
+    }
+  }, [selectedService, selectedStaff, selectedDate, selectedTime]);
 
   const handleBookingSubmit = async (bookingData) => {
     try {
@@ -351,11 +367,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
 
       // Calculate current step for progress indicator
       const getCurrentStep = () => {
-        if (selectedService && selectedStaff && selectedDate && selectedTime) return 5; // Booking form
-        if (selectedService && selectedStaff && selectedDate) return 4; // Time selection
-        if (selectedService && selectedStaff) return 3; // Date selection
-        if (selectedService) return 2; // Staff selection
-        return 1; // Service selection
+        return currentStep;
       };
 
       return (
