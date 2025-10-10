@@ -234,6 +234,10 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     setSelectedTime(time);
   };
 
+  const handleTimeSlotSelected = () => {
+    setCurrentStep(4); // Move to booking form after time selection
+  };
+
   const handleBookingSubmit = async (bookingData) => {
     try {
       setIsSubmitting(true);
@@ -439,6 +443,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
             onSelectDateTime={handleDateTimeSelect}
             selectedDate={selectedDate}
             selectedTime={selectedTime}
+            onTimeSlotSelected={handleTimeSlotSelected}
           />
         )}
 
