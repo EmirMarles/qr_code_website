@@ -1,6 +1,6 @@
 .qr-landing {
   min-height: 100svh; /* mobile safe viewport */
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #2b4756;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,15 +110,12 @@
   width: 20px;
   height: 20px;
   border-radius: 4px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6 50%, #ec4899);
+  background: #2b4756;
 }
 
 .bookme-word {
   font-size: 12px;
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6 50%, #ec4899);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: #2b4756;
 }
 
 .bookme-logo {
@@ -279,24 +276,24 @@
 }
 
 .book-btn.primary {
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  background: #2b4756;
   color: white;
-  box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
+  box-shadow: 0 4px 15px rgba(43, 71, 86, 0.4);
 }
 
 .book-btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.6);
+  box-shadow: 0 6px 20px rgba(43, 71, 86, 0.6);
 }
 
 .book-btn.secondary {
   background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #2b4756;
+  border: 2px solid #2b4756;
 }
 
 .book-btn.secondary:hover {
-  background: #667eea;
+  background: #2b4756;
   color: white;
   transform: translateY(-2px);
 }

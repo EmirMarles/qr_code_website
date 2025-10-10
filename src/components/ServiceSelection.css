@@ -66,8 +66,8 @@
 
 .search-input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: #2b4756;
+  box-shadow: 0 0 0 3px rgba(43, 71, 86, 0.1);
 }
 
 .services-grid {
@@ -102,22 +102,22 @@
 }
 
 .service-list-item:hover {
-  border-color: #3b82f6;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+  border-color: #2b4756;
+  box-shadow: 0 4px 12px rgba(43, 71, 86, 0.1);
   transform: translateY(-1px);
 }
 
 .service-list-item.selected {
-  border-color: #3b82f6;
-  background: #eff6ff;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+  border-color: #2b4756;
+  background: #f0f4f7;
+  box-shadow: 0 4px 12px rgba(43, 71, 86, 0.15);
 }
 
 .service-icon-small {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  background: #2b4756;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -200,15 +200,15 @@
 }
 
 .service-card:hover {
-  border-color: #3b82f6;
-  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.12), 0 2px 8px rgba(59, 130, 246, 0.08);
+  border-color: #2b4756;
+  box-shadow: 0 8px 16px rgba(43, 71, 86, 0.12), 0 2px 8px rgba(43, 71, 86, 0.08);
   transform: translateY(-2px);
 }
 
 .service-card.selected {
-  border-color: #3b82f6;
-  background: #eff6ff;
-  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.15), 0 2px 8px rgba(59, 130, 246, 0.1);
+  border-color: #2b4756;
+  background: #f0f4f7;
+  box-shadow: 0 8px 16px rgba(43, 71, 86, 0.15), 0 2px 8px rgba(43, 71, 86, 0.1);
   transform: translateY(-1px);
 }
 
@@ -216,7 +216,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  background: #2b4756;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -341,8 +341,8 @@
 }
 
 .selected-service-summary {
-  background: #eff6ff;
-  border: 2px solid #3b82f6;
+  background: #f0f4f7;
+  border: 2px solid #2b4756;
   border-radius: 0.75rem;
   padding: 1rem;
 }
@@ -428,15 +428,15 @@
 }
 
 .category-tab.active {
-  background: #3b82f6;
-  border-color: #3b82f6;
+  background: #2b4756;
+  border-color: #2b4756;
   color: white;
   font-weight: 600;
 }
 
 .category-tab.active:hover {
-  background: #2563eb;
-  border-color: #2563eb;
+  background: #1f3a47;
+  border-color: #1f3a47;
 }
 
 .tab-count {

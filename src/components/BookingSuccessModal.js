@@ -10,12 +10,37 @@ const BookingSuccessModal = ({ booking, onClose }) => {
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { 
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long', 
-        day: 'numeric' 
-      });
+      const russianWeekdays = {
+        0: 'Воскресенье',
+        1: 'Понедельник', 
+        2: 'Вторник',
+        3: 'Среда',
+        4: 'Четверг',
+        5: 'Пятница',
+        6: 'Суббота'
+      };
+      
+      const russianMonths = {
+        0: 'января',
+        1: 'февраля',
+        2: 'марта',
+        3: 'апреля',
+        4: 'мая',
+        5: 'июня',
+        6: 'июля',
+        7: 'августа',
+        8: 'сентября',
+        9: 'октября',
+        10: 'ноября',
+        11: 'декабря'
+      };
+      
+      const weekday = russianWeekdays[date.getDay()];
+      const day = date.getDate();
+      const month = russianMonths[date.getMonth()];
+      const year = date.getFullYear();
+      
+      return `${weekday}, ${day} ${month} ${year}`;
     } catch (error) {
       return dateString;
     }
@@ -32,10 +57,6 @@ const BookingSuccessModal = ({ booking, onClose }) => {
         
         <div className="booking-details">
           <h3>Детали записи</h3>
-          <div className="detail-item">
-            <span>ID записи:</span>
-            <span>{booking?.appointmentId || booking?._id || 'N/A'}</span>
-          </div>
           <div className="detail-item">
             <span>Услуга:</span>
             <span>{booking?.service?.name || 'N/A'}</span>
