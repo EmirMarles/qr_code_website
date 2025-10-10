@@ -54,8 +54,8 @@ export const generateDeepLink = (businessId) => {
  */
 export const generateWebBookingUrl = (businessId, qrCodeId) => {
   const qrParam = qrCodeId ? `&qr=${qrCodeId}` : '';
-  // Go to business landing page first, then user can proceed to booking
-  return `${window.location.origin}/?businessId=${businessId}${qrParam}`;
+  // Add a parameter to skip QR landing page and go directly to booking
+  return `${window.location.origin}/?businessId=${businessId}${qrParam}&direct=true`;
 };
 
 /**
