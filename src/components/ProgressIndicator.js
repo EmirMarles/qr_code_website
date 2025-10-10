@@ -3,11 +3,11 @@ import './ProgressIndicator.css';
 
 const ProgressIndicator = ({ currentStep, totalSteps }) => {
   const steps = [
-    { id: 1, label: 'Услуга', icon: '🪒', tooltip: 'Выберите услугу' },
-    { id: 2, label: 'Мастер', icon: '💈', tooltip: 'Выберите мастера' },
-    { id: 3, label: 'Дата', icon: '📅', tooltip: 'Выберите дату' },
-    { id: 4, label: 'Время', icon: '⏰', tooltip: 'Выберите время' },
-    { id: 5, label: 'Запись', icon: '✅', tooltip: 'Подтвердите запись' }
+    { id: 1, label: 'Услуга', icon: 'S', tooltip: 'Выберите услугу' },
+    { id: 2, label: 'Мастер', icon: 'M', tooltip: 'Выберите мастера' },
+    { id: 3, label: 'Дата', icon: 'D', tooltip: 'Выберите дату' },
+    { id: 4, label: 'Время', icon: 'T', tooltip: 'Выберите время' },
+    { id: 5, label: 'Запись', icon: 'B', tooltip: 'Подтвердите запись' }
   ];
 
   const progress = (currentStep / totalSteps) * 100;

@@ -54,7 +54,7 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
   // Set first category as active by default
   useEffect(() => {
     if (categoryNames.length > 1 && activeCategory === 'all') {
-      setActiveCategory(categoryNames[1]); // Set first real category as active
+      setActiveCategory('all'); // Keep "Все" as default active
     }
   }, [categoryNames, activeCategory]);
 
@@ -76,7 +76,6 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
           <h3>Выберите услугу</h3>
           {selectedService && (
             <button className="change-btn" onClick={handleToggleCollapse}>
-              <span className="change-icon">✏️</span>
               {isCollapsed ? 'Изменить' : 'Свернуть'}
             </button>
           )}
@@ -145,8 +144,8 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
             </div>
           )}
 
-          {/* Services Grid for Active Category */}
-          <div className="services-grid compact">
+          {/* Services List for Active Category */}
+          <div className="services-list">
             {getServicesForActiveCategory().map(service => {
               const getServiceIcon = (name) => {
                 const nameLower = name.toLowerCase();
@@ -160,15 +159,15 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
               return (
                 <div 
                   key={service._id}
-                  className={`service-card compact ${selectedService?._id === service._id ? 'selected' : ''}`}
+                  className={`service-list-item ${selectedService?._id === service._id ? 'selected' : ''}`}
                   onClick={() => handleServiceSelect(service)}
                 >
-                  <div className="service-icon">
+                  <div className="service-icon-small">
                     {getServiceIcon(service.name)}
                   </div>
-                  <div className="service-info">
+                  <div className="service-content">
                     <h4>{service.name}</h4>
-                    <div className="service-details">
+                    <div className="service-meta">
                       <span className="service-duration">
                         {service.duration || 60} мин
                       </span>
@@ -178,7 +177,7 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
                     </div>
                   </div>
                   {selectedService?._id === service._id && (
-                    <div className="selection-checkmark">
+                    <div className="selection-checkmark-small">
                       ✓
                     </div>
                   )}
