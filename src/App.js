@@ -19,12 +19,13 @@ function App() {
     
     if (id) {
       setBusinessId(id);
-      // If direct=true or no QR parameter, show booking page directly
+      // If direct=true, show booking page directly (for direct links)
       // If QR parameter exists and direct=false, show QR landing page for app redirection
-      if (direct === 'true' || !qr) {
-        setShowBookingPage(true); // Show booking page directly
+      // Otherwise, show QR landing page first
+      if (direct === 'true') {
+        setShowBookingPage(true); // Show booking page directly for direct links
       } else {
-        setShowBookingPage(false); // Show QR landing page
+        setShowBookingPage(false); // Show QR landing page first
       }
     } else {
       // No businessId found, show 404 page
