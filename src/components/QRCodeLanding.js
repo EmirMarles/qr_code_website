@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { parseQRCodeFromUrl, attemptAppRedirect } from '../utils/deviceDetection';
+import { fetchBusinessData } from '../services/api';
 import './QRCodeLanding.css';
 
 const QRCodeLanding = ({ onBookWithoutRegistration }) => {
-  // eslint-disable-next-line no-unused-vars
   const [businessId, setBusinessId] = useState(null);
   // eslint-disable-next-line no-unused-vars
   const [qrCodeId, setQrCodeId] = useState(null);
+  const [business, setBusiness] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [logoError, setLogoError] = useState(false);
 
   useEffect(() => {
     // Parse QR code parameters from URL
@@ -27,21 +30,92 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
     }
   }, []);
 
-  // No actions on landing; we only show welcome + branding while the app may redirect
-  const [logoError, setLogoError] = useState(false);
+  useEffect(() => {
+    const loadBusinessData = async () => {
+      if (!businessId) return;
+      
+      try {
+        setIsLoading(true);
+        const businessData = await fetchBusinessData(businessId);
+        setBusiness(businessData);
+      } catch (err) {
+        console.error('Failed to load business data:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadBusinessData();
+  }, [businessId]);
+
+  const handleServiceClick = () => {
+    onBookWithoutRegistration();
+  };
+
+  if (isLoading) {
+    return (
+      <div className="qr-landing">
+        <div className="qr-container">
+          <div className="loading-content">
+            <div className="loading-spinner"></div>
+            <p>Загрузка...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="qr-landing">
       <div className="qr-container">
-        {/* Main Content */}
-        <div className="qr-content">
-          <div className="booking-welcome">
-            <h2>Добро пожаловать!</h2>
-            <p className="welcome-sub">Быстрая и простая онлайн запись</p>
-            <p className="welcome-wait">подождите пару секунд…</p>
+        {/* Business Header */}
+        <div className="business-header">
+          <div className="business-logo">
+            <div className="logo-circle">
+              <span className="logo-text">Republic.</span>
+              <span className="logo-subtext">BARBERSHOP</span>
+            </div>
+          </div>
+          
+          <div className="business-info">
+            <h1 className="business-name">
+              {business?.name || 'REPUBLIC'}
+              <span className="dropdown-arrow">▼</span>
+            </h1>
+            <p className="business-address">
+              {business?.location?.address || business?.address || 'Мирабад 39'}
+            </p>
           </div>
         </div>
-        {/* Branding */}
+
+        {/* Service Options */}
+        <div className="service-options">
+          <div className="service-option" onClick={handleServiceClick}>
+            <div className="service-icon">
+              <div className="icon-staff">👥</div>
+            </div>
+            <span className="service-text">Выбрать специалиста</span>
+            <span className="service-arrow">›</span>
+          </div>
+
+          <div className="service-option" onClick={handleServiceClick}>
+            <div className="service-icon">
+              <div className="icon-calendar">📅</div>
+            </div>
+            <span className="service-text">Выбрать дату и время</span>
+            <span className="service-arrow">›</span>
+          </div>
+
+          <div className="service-option" onClick={handleServiceClick}>
+            <div className="service-icon">
+              <div className="icon-list">☰</div>
+            </div>
+            <span className="service-text">Выбрать услуги</span>
+            <span className="service-arrow">›</span>
+          </div>
+        </div>
+
+        {/* Powered by */}
         <div className="powered-by">
           <a
             href="https://bookme.uz"
@@ -51,7 +125,6 @@ const QRCodeLanding = ({ onBookWithoutRegistration }) => {
             aria-label="Powered by BookMe"
           >
             <span className="powered-text">Powered by</span>
-            {/* Brand logo from public folder; fallback to gradient mark if missing */}
             {!logoError ? (
               <img 
                 src="/BookMeLogo.jpg" 
