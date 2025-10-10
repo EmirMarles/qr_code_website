@@ -1,6 +1,6 @@
 .qr-landing {
   min-height: 100svh; /* mobile safe viewport */
-  background: #f5f5f5; /* Light gray background like in the reference */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,11 +11,11 @@
 }
 
 .qr-container {
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   animation: slideUp 0.6s ease-out;
   margin: 10px auto; /* space so it can scroll and not stick to edges */
@@ -30,144 +30,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* Loading State */
-.loading-content {
-  padding: 40px 20px;
-  text-align: center;
-}
-
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #333;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: 0 auto 20px;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Business Header */
-.business-header {
-  padding: 24px 20px 20px;
-  text-align: center;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.business-logo {
-  margin-bottom: 16px;
-}
-
-.logo-circle {
-  width: 80px;
-  height: 80px;
-  background: #000;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  color: white;
-}
-
-.logo-text {
-  font-size: 16px;
-  font-weight: 600;
-  font-family: 'Georgia', serif;
-  line-height: 1;
-}
-
-.logo-subtext {
-  font-size: 10px;
-  font-weight: 400;
-  margin-top: 2px;
-  letter-spacing: 0.5px;
-}
-
-.business-info {
-  text-align: center;
-}
-
-.business-name {
-  font-size: 24px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 8px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.dropdown-arrow {
-  font-size: 14px;
-  color: #999;
-  cursor: pointer;
-}
-
-.business-address {
-  font-size: 14px;
-  color: #666;
-  margin: 0;
-  font-weight: 400;
-}
-
-/* Service Options */
-.service-options {
-  padding: 0;
-}
-
-.service-option {
-  display: flex;
-  align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid #f0f0f0;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  gap: 16px;
-}
-
-.service-option:hover {
-  background-color: #f9f9f9;
-}
-
-.service-option:last-child {
-  border-bottom: none;
-}
-
-.service-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.icon-staff, .icon-calendar, .icon-list {
-  font-size: 20px;
-}
-
-.service-text {
-  flex: 1;
-  font-size: 16px;
-  color: #333;
-  font-weight: 500;
-}
-
-.service-arrow {
-  font-size: 18px;
-  color: #999;
-  font-weight: 300;
 }
 
 /* Header */
@@ -217,8 +79,8 @@
 
 /* Powered by */
 .powered-by {
-  border-top: 1px solid #f0f0f0;
-  padding: 16px 20px;
+  border-top: 1px solid #eef2f7;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -593,83 +455,64 @@
   }
   
   .qr-container {
-    border-radius: 12px;
+    border-radius: 15px;
     margin: 8px auto;
-    max-width: 350px;
   }
   
-  .business-header {
-    padding: 20px 16px 16px;
+  .qr-header {
+    padding: 25px 15px;
   }
   
-  .logo-circle {
-    width: 70px;
-    height: 70px;
+  .qr-logo h1 {
+    font-size: 28px;
   }
   
-  .logo-text {
-    font-size: 14px;
+  .qr-content {
+    padding: 30px 15px;
   }
   
-  .logo-subtext {
-    font-size: 9px;
+  .app-icon {
+    font-size: 60px;
   }
   
-  .business-name {
-    font-size: 20px;
+  .app-options h2 {
+    font-size: 24px;
   }
   
-  .business-address {
-    font-size: 13px;
+  .desktop-actions .app-links {
+    flex-direction: column;
   }
   
-  .service-option {
-    padding: 14px 16px;
-    gap: 14px;
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
   }
   
-  .service-icon {
-    width: 44px;
-    height: 44px;
+  .feature {
+    padding: 12px;
   }
   
-  .icon-staff, .icon-calendar, .icon-list {
-    font-size: 18px;
+  .qr-footer {
+    padding: 15px;
   }
   
-  .service-text {
-    font-size: 15px;
-  }
-  
-  .powered-by {
-    padding: 14px 16px;
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
   }
 }
 
 @media (max-width: 320px) {
-  .qr-container {
-    max-width: 320px;
+  .qr-logo h1 {
+    font-size: 24px;
   }
   
-  .business-name {
-    font-size: 18px;
+  .app-options h2 {
+    font-size: 20px;
   }
   
-  .service-text {
+  .app-btn, .book-btn {
+    padding: 14px 20px;
     font-size: 14px;
-  }
-  
-  .service-option {
-    padding: 12px 14px;
-    gap: 12px;
-  }
-  
-  .service-icon {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .icon-staff, .icon-calendar, .icon-list {
-    font-size: 16px;
   }
 }

@@ -1,0 +1,206 @@
+.business-landing {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.business-card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Logo */
+.business-logo {
+  margin-bottom: 24px;
+}
+
+.logo-circle {
+  width: 80px;
+  height: 80px;
+  background: #000;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  color: white;
+}
+
+.logo-text {
+  font-size: 16px;
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1;
+}
+
+.logo-subtitle {
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* Business Header */
+.business-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.business-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.dropdown-chevron {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-left: 8px;
+}
+
+/* Address */
+.business-address {
+  color: #9ca3af;
+  font-size: 14px;
+  margin-bottom: 32px;
+  line-height: 1.4;
+}
+
+/* Select Service Button */
+.select-service-btn {
+  width: 100%;
+  background: #000;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.select-service-btn:hover {
+  background: #374151;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.select-service-btn:active {
+  transform: translateY(0);
+}
+
+/* Loading and Error States */
+.loading-container, .error-container {
+  text-align: center;
+  padding: 40px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid #000;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-container h2 {
+  color: #ef4444;
+  margin-bottom: 8px;
+}
+
+.error-container p {
+  color: #6b7280;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .business-landing {
+    padding: 16px;
+  }
+  
+  .business-card {
+    padding: 24px;
+    border-radius: 12px;
+  }
+  
+  .logo-circle {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .logo-text {
+    font-size: 14px;
+  }
+  
+  .logo-subtitle {
+    font-size: 7px;
+  }
+  
+  .business-name {
+    font-size: 24px;
+  }
+  
+  .business-address {
+    font-size: 13px;
+  }
+  
+  .select-service-btn {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 320px) {
+  .business-card {
+    padding: 20px;
+  }
+  
+  .logo-circle {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .logo-text {
+    font-size: 12px;
+  }
+  
+  .logo-subtitle {
+    font-size: 6px;
+  }
+  
+  .business-name {
+    font-size: 20px;
+  }
+  
+  .select-service-btn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+}

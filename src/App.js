@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import QRCodeLanding from './components/QRCodeLanding';
+import BusinessLanding from './components/BusinessLanding';
 import BookingPage from './components/BookingPage';
 import NotFound from './components/NotFound';
 import './App.css';
 
 function App() {
   const [showBookingPage, setShowBookingPage] = useState(false);
+  const [showBusinessLanding, setShowBusinessLanding] = useState(false);
   const [businessId, setBusinessId] = useState(null);
 
   useEffect(() => {
@@ -31,11 +33,17 @@ function App() {
   }, []);
 
   const handleBookWithoutRegistration = () => {
+    // Show business landing page first
+    setShowBusinessLanding(true);
+  };
+
+  const handleStartBooking = () => {
     // Add direct parameter to URL to ensure booking page shows directly
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('direct', 'true');
     const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
     window.history.replaceState({}, '', newUrl);
+    setShowBusinessLanding(false);
     setShowBookingPage(true);
   };
 
@@ -43,6 +51,14 @@ function App() {
     return (
       <div className="App">
         <BookingPage businessId={businessId} />
+      </div>
+    );
+  }
+
+  if (showBusinessLanding) {
+    return (
+      <div className="App">
+        <BusinessLanding businessId={businessId} onStartBooking={handleStartBooking} />
       </div>
     );
   }

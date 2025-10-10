@@ -4,7 +4,7 @@ import './ServiceSelection.css';
 const ServiceSelection = ({ services, onSelectService, selectedService }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [showAll, setShowAll] = useState(false);
+  // const [showAll, setShowAll] = useState(false); // Removed unused state
   const [expandedCategories, setExpandedCategories] = useState({});
 
   const handleServiceSelect = (service) => {
