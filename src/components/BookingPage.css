@@ -1,6 +1,6 @@
 .booking-page {
   min-height: 100vh;
-  background-color: #2b4756;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   padding-bottom: 100px; /* Space for sticky CTA */
 }
 
