@@ -40,7 +40,7 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
         <div className="section-title">
           <h3>Выберите мастера</h3>
           {selectedStaff && (
-            <button className="collapse-btn" onClick={handleToggleCollapse}>
+            <button className="change-btn" onClick={handleToggleCollapse}>
               {isCollapsed ? 'Изменить' : 'Свернуть'}
             </button>
           )}
@@ -86,14 +86,14 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
             />
           </div>
 
-          <div className="staff-grid compact">
-            {displayedStaff.map(staffMember => (
+          <div className="staff-list">
+            {filteredStaff.map(staffMember => (
               <div 
                 key={staffMember._id}
-                className={`staff-card compact ${selectedStaff?._id === staffMember._id ? 'selected' : ''}`}
+                className={`staff-list-item ${selectedStaff?._id === staffMember._id ? 'selected' : ''}`}
                 onClick={() => handleStaffSelect(staffMember)}
               >
-                <div className="staff-avatar">
+                <div className="staff-avatar-small">
                   {staffMember.photos?.avatar?.url ? (
                     <img 
                       src={staffMember.photos.avatar.url} 
@@ -104,30 +104,24 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
                       }}
                     />
                   ) : null}
-                  <div className="default-avatar" style={{ display: staffMember.photos?.avatar?.url ? 'none' : 'flex' }}>
+                  <div className="default-avatar-small" style={{ display: staffMember.photos?.avatar?.url ? 'none' : 'flex' }}>
                     {staffMember.fullName?.charAt(0) || 'S'}
                   </div>
                 </div>
-                <div className="staff-info">
+                <div className="staff-content">
                   <h4>{staffMember.fullName || 'Staff Member'}</h4>
                   {staffMember.position && (
                     <p className="staff-position">{staffMember.position}</p>
                   )}
                 </div>
+                {selectedStaff?._id === staffMember._id && (
+                  <div className="selection-checkmark-small">
+                    ✓
+                  </div>
+                )}
               </div>
             ))}
           </div>
-
-          {filteredStaff.length > 6 && (
-            <div className="show-more-container">
-              <button 
-                className="show-more-btn"
-                onClick={() => setShowAll(!showAll)}
-              >
-                {showAll ? 'Показать меньше' : `Показать еще ${filteredStaff.length - 6}`}
-              </button>
-            </div>
-          )}
         </>
       )}
     </div>

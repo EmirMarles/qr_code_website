@@ -125,7 +125,33 @@ const BookingPage = ({ businessId: propBusinessId }) => {
           setStaff(businessData.staff);
         } else {
           console.warn('Staff data not found in business data');
-          setStaff([]);
+          // Use sample staff data for demonstration
+          setStaff([
+            {
+              _id: "staff1",
+              fullName: "Dilshod boy",
+              position: "The Greatest barber",
+              bio: "10+ years of experience"
+            },
+            {
+              _id: "staff2",
+              fullName: "Bobur",
+              position: "Manager",
+              bio: "Professional barber"
+            },
+            {
+              _id: "staff3",
+              fullName: "Ahmed",
+              position: "Senior Barber",
+              bio: "Specialist in modern cuts"
+            },
+            {
+              _id: "staff4",
+              fullName: "Igor",
+              position: "Master Barber",
+              bio: "Classic and contemporary styles"
+            }
+          ]);
         }
       } catch (err) {
         console.error('Failed to load initial data:', err);
