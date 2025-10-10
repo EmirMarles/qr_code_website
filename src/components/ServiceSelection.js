@@ -22,20 +22,16 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
   // Group services by category for horizontal display
   const groupServicesByCategory = (servicesList) => {
     const grouped = {};
-    const uncategorized = [];
     
     servicesList.forEach(service => {
-      if (service.category) {
-        if (!grouped[service.category]) {
-          grouped[service.category] = [];
-        }
-        grouped[service.category].push(service);
-      } else {
-        uncategorized.push(service);
+      const category = service.category || 'Другое';
+      if (!grouped[category]) {
+        grouped[category] = [];
       }
+      grouped[category].push(service);
     });
     
-    return { grouped, uncategorized };
+    return grouped;
   };
 
   const filteredServices = services?.filter(service =>
@@ -44,7 +40,7 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
     service.category?.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
-  const { grouped: groupedServices, uncategorized: uncategorizedServices } = groupServicesByCategory(filteredServices);
+  const groupedServices = groupServicesByCategory(filteredServices);
   const categoryNames = ['all', ...Object.keys(groupedServices).sort()];
 
   // Get services for active category

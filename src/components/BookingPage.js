@@ -99,6 +99,22 @@ const BookingPage = ({ businessId: propBusinessId }) => {
               duration: 90,
               price: 300000,
               staff: ["staff5"]
+            },
+            {
+              _id: "service6",
+              name: "Manicure",
+              // No category - will be grouped under "Другое"
+              duration: 45,
+              price: 100000,
+              staff: ["staff6"]
+            },
+            {
+              _id: "service7",
+              name: "Pedicure",
+              // No category - will be grouped under "Другое"
+              duration: 60,
+              price: 120000,
+              staff: ["staff6"]
             }
           ]);
         }
