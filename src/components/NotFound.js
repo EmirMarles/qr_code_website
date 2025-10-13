@@ -7,28 +7,28 @@ const NotFound = () => {
       <div className="not-found-container">
         <div className="not-found-icon">🔍</div>
         <h1>404</h1>
-        <h2>Business Not Found</h2>
-        <p>The business you're looking for doesn't exist or the QR code is invalid.</p>
+        <h2>Бизнес не найден</h2>
+        <p>Бизнес, который вы ищете, не существует или QR-код недействителен.</p>
         
         <div className="not-found-actions">
           <button 
             className="btn btn-primary"
             onClick={() => window.location.reload()}
           >
-            Try Again
+            Попробовать снова
           </button>
           <button 
             className="btn btn-secondary"
             onClick={() => window.history.back()}
           >
-            Go Back
+            Назад
           </button>
         </div>
         
         <div className="not-found-help">
-          <h3>Need Help?</h3>
-          <p>If you're trying to book an appointment, please scan the QR code provided by the business.</p>
-          <p>Make sure you're scanning the correct QR code for this business.</p>
+          <h3>Нужна помощь?</h3>
+          <p>Если вы пытаетесь записаться на прием, пожалуйста, отсканируйте QR-код, предоставленный бизнесом.</p>
+          <p>Убедитесь, что вы сканируете правильный QR-код для этого бизнеса.</p>
         </div>
       </div>
     </div>
