@@ -84,41 +84,40 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
       </div>
 
       {selectedService && isCollapsed ? (
-        <div className="selected-service-summary">
-          <div className="selected-service-card">
-            <div className="service-icon">
-              {(() => {
-                const nameLower = selectedService.name.toLowerCase();
-                if (nameLower.includes('стриж') || nameLower.includes('haircut')) return 'H';
-                if (nameLower.includes('массаж') || nameLower.includes('massage')) return 'M';
-                if (nameLower.includes('брит') || nameLower.includes('shave')) return 'S';
-                if (nameLower.includes('уклад') || nameLower.includes('styling')) return 'T';
-                return 'B';
-              })()}
-            </div>
-            <div className="service-info">
-              <h4>{selectedService.name}</h4>
-              {selectedService.category && (
-                <div className="service-category">
-                  {selectedService.category}
-                </div>
-              )}
-              <div className="service-details">
-                <span>{selectedService.duration || 60} мин</span>
-                <div className="price-container">
-                  {selectedService.discount ? (
-                    <>
-                      <span className="original-price">{selectedService.price?.toLocaleString() || '0'} сум</span>
-                      <span className="discounted-price">{((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString()} сум</span>
-                      <span className="discount-badge">-{selectedService.discount}%</span>
-                    </>
-                  ) : (
-                    <span>{selectedService.price?.toLocaleString() || '0'} сум</span>
-                  )}
-                </div>
+        <div className="service-list-item selected">
+          <div className="service-icon-small">
+            {(() => {
+              const nameLower = selectedService.name.toLowerCase();
+              if (nameLower.includes('стриж') || nameLower.includes('haircut')) return 'H';
+              if (nameLower.includes('массаж') || nameLower.includes('massage')) return 'M';
+              if (nameLower.includes('брит') || nameLower.includes('shave')) return 'S';
+              if (nameLower.includes('уклад') || nameLower.includes('styling')) return 'T';
+              return 'B';
+            })()}
+          </div>
+          <div className="service-content">
+            <h4>{selectedService.name}</h4>
+            {selectedService.category && (
+              <div className="service-category">
+                {selectedService.category}
+              </div>
+            )}
+            <div className="service-details">
+              <span className="service-duration">{selectedService.duration || 60} мин</span>
+              <div className="price-container">
+                {selectedService.discount ? (
+                  <>
+                    <span className="original-price">{selectedService.price?.toLocaleString() || '0'} сум</span>
+                    <span className="service-price">{((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString()} сум</span>
+                    <span className="discount-badge">-{selectedService.discount}%</span>
+                  </>
+                ) : (
+                  <span className="service-price">{selectedService.price?.toLocaleString() || '0'} сум</span>
+                )}
               </div>
             </div>
           </div>
+          <div className="selection-checkmark-small">✓</div>
         </div>
       ) : (
         <>
