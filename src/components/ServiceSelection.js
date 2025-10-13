@@ -105,7 +105,17 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
               )}
               <div className="service-details">
                 <span>{selectedService.duration || 60} мин</span>
-                <span>{selectedService.price || 0} сум</span>
+                <div className="price-container">
+                  {selectedService.discount ? (
+                    <>
+                      <span className="original-price">{selectedService.price?.toLocaleString() || '0'} сум</span>
+                      <span className="discounted-price">{((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString()} сум</span>
+                      <span className="discount-badge">-{selectedService.discount}%</span>
+                    </>
+                  ) : (
+                    <span>{selectedService.price?.toLocaleString() || '0'} сум</span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -171,9 +181,17 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
                       <span className="service-duration">
                         {service.duration || 60} мин
                       </span>
-                      <span className="service-price">
-                        {service.price ? service.price.toLocaleString() : '0'} сум
-                      </span>
+                      <div className="price-container">
+                        {service.discount ? (
+                          <>
+                            <span className="original-price">{service.price?.toLocaleString() || '0'} сум</span>
+                            <span className="discounted-price">{((service.price || 0) * (1 - service.discount / 100)).toLocaleString()} сум</span>
+                            <span className="discount-badge">-{service.discount}%</span>
+                          </>
+                        ) : (
+                          <span className="service-price">{service.price?.toLocaleString() || '0'} сум</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                   {selectedService?._id === service._id && (

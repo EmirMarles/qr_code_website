@@ -117,6 +117,33 @@ const BookingPage = ({ businessId: propBusinessId }) => {
               duration: 60,
               price: 120000,
               staff: ["staff6"]
+            },
+            {
+              _id: "service8",
+              name: "Premium Haircut",
+              category: "Hair",
+              duration: 75,
+              price: 400000,
+              discount: 20, // 20% discount
+              staff: ["staff1", "staff2"]
+            },
+            {
+              _id: "service9",
+              name: "Deep Tissue Massage",
+              category: "Wellness",
+              duration: 90,
+              price: 350000,
+              discount: 15, // 15% discount
+              staff: ["staff3", "staff4"]
+            },
+            {
+              _id: "service10",
+              name: "VIP Facial Treatment",
+              category: "Skincare",
+              duration: 120,
+              price: 500000,
+              discount: 25, // 25% discount
+              staff: ["staff5"]
             }
           ]);
         }

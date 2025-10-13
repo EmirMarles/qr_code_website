@@ -168,6 +168,37 @@
   line-height: 1.5;
 }
 
+/* Price Summary Styles */
+.price-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.price-summary .original-price {
+  font-size: 14px;
+  color: #9ca3af;
+  text-decoration: line-through;
+  font-weight: 400;
+}
+
+.price-summary .discounted-price {
+  font-size: 18px;
+  color: #059669;
+  font-weight: bold;
+}
+
+.price-summary .discount-info {
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 600;
+  background: #fef2f2;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #fecaca;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .booking-form {
