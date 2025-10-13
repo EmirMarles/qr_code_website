@@ -120,17 +120,12 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
         </div>
         <div className="summary-item total">
           <span>Сумма:</span>
-          <div className="price-summary">
-            {selectedService?.discount ? (
-              <>
-                <span className="original-price">{selectedService.price?.toLocaleString() || '0'} сум</span>
-                <span className="discounted-price">{((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString()} сум</span>
-                <span className="discount-info">-{selectedService.discount}%</span>
-              </>
-            ) : (
-              <span>{selectedService?.price?.toLocaleString() || '0'} сум</span>
-            )}
-          </div>
+          <span>
+            {selectedService?.discount 
+              ? ((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString() + ' сум'
+              : (selectedService?.price?.toLocaleString() || '0') + ' сум'
+            }
+          </span>
         </div>
       </div>
 

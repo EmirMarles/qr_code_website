@@ -1,38 +1,52 @@
 .booking-form {
-  background: white;
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 1rem 0;
-  border: 1px solid #f1f5f9;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-2xl);
+  margin: var(--space-6) 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.booking-form:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.25);
 }
 
 .booking-form h3 {
-  font-size: 24px;
-  color: #1f2937;
-  margin-bottom: 10px;
-  font-weight: 600;
+  font-size: var(--font-size-3xl);
+  color: var(--gray-900);
+  margin-bottom: var(--space-3);
+  font-weight: var(--font-weight-bold);
+  background: linear-gradient(135deg, var(--gray-900) 0%, var(--primary-700) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .section-description {
-  color: #6b7280;
-  font-size: 16px;
-  margin-bottom: 30px;
+  color: var(--gray-600);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--space-8);
+  line-height: var(--line-height-relaxed);
 }
 
 .booking-summary {
-  background: #f9fafb;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 20px;
-  border: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  box-shadow: var(--shadow-md);
 }
 
 .booking-summary h4 {
-  font-size: 18px;
-  color: #1f2937;
-  margin-bottom: 12px;
-  font-weight: 700;
+  font-size: var(--font-size-xl);
+  color: var(--gray-900);
+  margin-bottom: var(--space-3);
+  font-weight: var(--font-weight-bold);
   letter-spacing: -0.025em;
 }
 
@@ -63,8 +77,7 @@
 }
 
 .summary-item.total {
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: 600;
   color: #059669;
   padding-top: 8px;
   margin-top: 6px;
@@ -73,8 +86,15 @@
 
 .summary-item.total span:first-child {
   color: #059669;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
+}
+
+.summary-item.total span:last-child {
+  color: #059669;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: right;
 }
 
 .form-group {
@@ -91,23 +111,26 @@
 
 .form-group input {
   width: 100%;
-  padding: 14px 16px;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
-  font-size: 16px;
-  transition: border-color 0.2s ease;
-  background: white;
+  padding: var(--space-4) var(--space-5);
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  border-color: var(--primary-400);
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1), var(--shadow-md);
+  background: rgba(255, 255, 255, 1);
 }
 
 .form-group input.error {
-  border-color: #dc2626;
-  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+  border-color: var(--error-500);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 .form-group input::placeholder {
@@ -127,23 +150,23 @@
 
 .book-btn {
   width: 100%;
-  padding: 1.25rem 2rem;
-  background: #2b4756;
+  padding: var(--space-5) var(--space-8);
+  background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
   color: white;
   border: none;
-  border-radius: 1rem;
-  font-size: 1.125rem;
-  font-weight: 700;
+  border-radius: var(--radius-2xl);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--space-3);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(43, 71, 86, 0.3);
-  min-height: 3.5rem;
+  box-shadow: var(--shadow-xl);
+  min-height: 4rem;
 }
 
 .checkmark-icon {
@@ -171,9 +194,9 @@
 }
 
 .book-btn:hover:not(:disabled) {
-  background: #1f3a47;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(43, 71, 86, 0.4);
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-2xl);
 }
 
 .book-btn:hover:not(:disabled)::before {
@@ -181,63 +204,29 @@
 }
 
 .book-btn:disabled {
-  background: #9ca3af;
+  background: var(--gray-300);
   cursor: not-allowed;
   transform: none;
-  box-shadow: none;
+  box-shadow: var(--shadow-sm);
 }
 
 .booking-note {
-  margin-top: 20px;
-  padding: 15px;
-  background: #f0f4f7;
-  border-radius: 8px;
-  border-left: 4px solid #2b4756;
+  margin-top: var(--space-6);
+  padding: var(--space-4);
+  background: rgba(14, 165, 233, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(14, 165, 233, 0.1);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--primary-500);
 }
 
 .booking-note p {
-  color: #2b4756;
-  font-size: 14px;
+  color: var(--primary-700);
+  font-size: var(--font-size-sm);
   margin: 0;
-  line-height: 1.5;
+  line-height: var(--line-height-relaxed);
 }
 
-/* Price Summary Styles */
-.price-summary {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-}
-
-.price-summary .original-price {
-  font-size: 11px;
-  color: #9ca3af;
-  text-decoration: line-through;
-  font-weight: 400;
-  order: 2;
-}
-
-.price-summary .discounted-price {
-  font-size: 16px;
-  color: #059669;
-  font-weight: 700;
-  order: 1;
-  margin-bottom: 1px;
-}
-
-.price-summary .discount-info {
-  font-size: 9px;
-  color: #dc2626;
-  font-weight: 700;
-  background: #fee2e2;
-  padding: 2px 6px;
-  border-radius: 8px;
-  border: 1px solid #fecaca;
-  order: 3;
-  text-transform: uppercase;
-  letter-spacing: 0.025em;
-}
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -272,9 +261,12 @@
   }
   
   .summary-item.total {
-    font-size: 14px;
     padding-top: 6px;
     margin-top: 4px;
+  }
+  
+  .summary-item.total span:last-child {
+    font-size: 14px;
   }
   
   .form-group {
@@ -325,6 +317,10 @@
   .summary-item.total {
     padding-top: 4px;
     margin-top: 2px;
+  }
+  
+  .summary-item.total span:last-child {
+    font-size: 13px;
   }
   
   .form-group input {

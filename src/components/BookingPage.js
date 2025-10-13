@@ -5,6 +5,7 @@ import StaffSelection from './StaffSelection';
 import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
+import ProgressIndicator from './ProgressIndicator';
 import NotFound from './NotFound';
 import { fetchBusinessData, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
@@ -311,6 +312,18 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     setBookingForm({ clientName: '', clientPhone: '', notes: '' });
   };
 
+  // Calculate current step for progress indicator
+  const getCurrentStep = () => {
+    if (!selectedService) return 1;
+    if (!selectedStaff) return 2;
+    if (!selectedDate) return 3;
+    if (!selectedTime) return 4;
+    return 5;
+  };
+
+  const currentStep = getCurrentStep();
+  const totalSteps = 5;
+
   if (isLoading) {
     return (
       <div className="booking-page">
@@ -382,45 +395,57 @@ const BookingPage = ({ businessId: propBusinessId }) => {
               </div>
             </header>
 
+            {/* Progress Indicator */}
+            <ProgressIndicator 
+              currentStep={currentStep}
+              totalSteps={totalSteps}
+            />
 
         {/* Service Selection */}
-        <ServiceSelection 
-          services={services}
-          onSelectService={handleServiceSelect}
-          selectedService={selectedService}
-        />
+        <div className="animate-fade-in-up">
+          <ServiceSelection 
+            services={services}
+            onSelectService={handleServiceSelect}
+            selectedService={selectedService}
+          />
+        </div>
 
         {/* Staff Selection */}
         {selectedService && (
-          <StaffSelection 
-            staff={filteredStaff}
-            onSelectStaff={handleStaffSelect}
-            selectedStaff={selectedStaff}
-          />
+          <div className="animate-fade-in-up animate-delay-100">
+            <StaffSelection 
+              staff={filteredStaff}
+              onSelectStaff={handleStaffSelect}
+              selectedStaff={selectedStaff}
+            />
+          </div>
         )}
-
 
         {/* Date and Time Selection */}
         {selectedService && selectedStaff && (
-          <DateTimeSelection 
-            availableSlots={availableSlots}
-            onSelectDateTime={handleDateTimeSelect}
-            selectedDate={selectedDate ? new Date(selectedDate) : null}
-            selectedTime={selectedTime}
-          />
+          <div className="animate-fade-in-up animate-delay-200">
+            <DateTimeSelection 
+              availableSlots={availableSlots}
+              onSelectDateTime={handleDateTimeSelect}
+              selectedDate={selectedDate ? new Date(selectedDate) : null}
+              selectedTime={selectedTime}
+            />
+          </div>
         )}
 
         {/* Booking Form */}
         {selectedService && selectedStaff && selectedDate && selectedTime && (
-          <BookingForm 
-            onSubmit={handleBookingSubmit}
-            selectedService={selectedService}
-            selectedStaff={selectedStaff}
-            selectedDate={selectedDate}
-            selectedTime={selectedTime}
-            formData={bookingForm}
-            onFormDataChange={setBookingForm}
-          />
+          <div className="animate-fade-in-up animate-delay-300">
+            <BookingForm 
+              onSubmit={handleBookingSubmit}
+              selectedService={selectedService}
+              selectedStaff={selectedStaff}
+              selectedDate={selectedDate}
+              selectedTime={selectedTime}
+              formData={bookingForm}
+              onFormDataChange={setBookingForm}
+            />
+          </div>
         )}
 
             {/* Business Info Modal */}
