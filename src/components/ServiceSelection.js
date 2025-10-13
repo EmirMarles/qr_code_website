@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ServiceSelection.css';
 
-const ServiceSelection = ({ services, onSelectService, selectedService }) => {
+const ServiceSelection = ({ services, onSelectService, selectedService, onEditService }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -18,6 +18,10 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
     setIsEditing(true);
     setSearchTerm(''); // Reset search term
     setActiveCategory('all'); // Reset to show all categories
+    // Call parent function to reset staff and show all services
+    if (onEditService) {
+      onEditService();
+    }
   };
 
   const handleToggleCollapse = () => {
