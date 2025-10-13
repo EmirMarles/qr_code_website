@@ -257,7 +257,9 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   };
 
   const handleDateTimeSelect = (date, time) => {
-    setSelectedDate(date);
+    // Convert Date object to string format expected by backend
+    const dateString = date ? date.toISOString().split('T')[0] : null;
+    setSelectedDate(dateString);
     setSelectedTime(time);
   };
 
@@ -445,7 +447,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
           <DateTimeSelection 
             availableSlots={availableSlots}
             onSelectDateTime={handleDateTimeSelect}
-            selectedDate={selectedDate}
+            selectedDate={selectedDate ? new Date(selectedDate) : null}
             selectedTime={selectedTime}
           />
         )}

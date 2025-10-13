@@ -25,12 +25,24 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
       .sort((a, b) => a.startTime.localeCompare(b.startTime));
   };
 
-  if (!availableSlots || availableSlots.length === 0) {
+  // Only show "no slots" message if a date is selected but no slots are available
+  if (localSelectedDate && (!availableSlots || availableSlots.length === 0)) {
     return (
       <div className="datetime-selection">
         <h3>Выберите дату и время</h3>
+        <p className="section-description">Выберите удобную дату и время записи</p>
+        
+        <div className="date-selection">
+          <h4>Выберите дату</h4>
+          <Calendar
+            selectedDate={localSelectedDate}
+            onDateSelect={handleDateSelect}
+            availableDates={[]}
+          />
+        </div>
+        
         <div className="no-slots">
-          <p>Нет доступных слотов. Попробуйте выбрать другую дату или свяжитесь с бизнесом напрямую.</p>
+          <p>Нет доступных слотов на выбранную дату. Попробуйте выбрать другую дату или свяжитесь с бизнесом напрямую.</p>
         </div>
       </div>
     );
