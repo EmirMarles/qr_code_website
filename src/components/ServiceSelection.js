@@ -5,14 +5,19 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeCategory, setActiveCategory] = useState('all');
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleServiceSelect = (service) => {
     onSelectService(service);
     setIsCollapsed(true);
+    setIsEditing(false);
   };
 
   const handleChangeService = () => {
     setIsCollapsed(false);
+    setIsEditing(true);
+    setSearchTerm(''); // Reset search term
+    setActiveCategory('all'); // Reset to show all categories
   };
 
   const handleToggleCollapse = () => {
@@ -61,6 +66,16 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
       setActiveCategory('all'); // Keep "Все" as default active
     }
   }, [categoryNames, activeCategory]);
+
+  // Reset state when selectedService changes (when editing)
+  useEffect(() => {
+    if (!selectedService) {
+      setIsCollapsed(false);
+      setSearchTerm('');
+      setActiveCategory('all');
+      setIsEditing(false);
+    }
+  }, [selectedService]);
 
   if (!services || services.length === 0) {
     return (

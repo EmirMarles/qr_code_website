@@ -1,18 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './StaffSelection.css';
 
 const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleStaffSelect = (staffMember) => {
     onSelectStaff(staffMember);
     setIsCollapsed(true);
+    setIsEditing(false);
   };
 
   const handleChangeStaff = () => {
     setIsCollapsed(false);
+    setIsEditing(true);
+    setSearchTerm(''); // Reset search term
+    setShowAll(false); // Reset show all state
   };
 
   const filteredStaff = staff?.filter(staffMember =>
@@ -22,6 +27,16 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
   ) || [];
 
   const displayedStaff = showAll ? filteredStaff : filteredStaff.slice(0, 6);
+
+  // Reset state when selectedStaff changes (when editing)
+  useEffect(() => {
+    if (!selectedStaff) {
+      setIsCollapsed(false);
+      setSearchTerm('');
+      setShowAll(false);
+      setIsEditing(false);
+    }
+  }, [selectedStaff]);
 
   if (!staff || staff.length === 0) {
     return (
