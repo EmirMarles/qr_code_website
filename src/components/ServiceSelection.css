@@ -216,17 +216,7 @@
 }
 
 .service-icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background: #2b4756;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  flex-shrink: 0;
+  display: none;
 }
 
 .service-card.compact .service-icon {
@@ -353,7 +343,6 @@
 .selected-service-card {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
 }
 
 .selected-service-card .service-icon {
