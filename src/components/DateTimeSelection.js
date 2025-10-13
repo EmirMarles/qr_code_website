@@ -96,7 +96,6 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
 
         <div className="selected-datetime-display">
           <div className="selected-datetime-item">
-            <div className="datetime-icon">📅</div>
             <div className="datetime-content">
               <h4>Дата и время</h4>
               <div className="datetime-details">

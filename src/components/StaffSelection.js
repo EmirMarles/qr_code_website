@@ -11,8 +11,8 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
     setIsCollapsed(true);
   };
 
-  const handleToggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
+  const handleChangeStaff = () => {
+    setIsCollapsed(false);
   };
 
   const filteredStaff = staff?.filter(staffMember =>
@@ -40,8 +40,8 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
         <div className="section-title">
           <h3>Выберите мастера</h3>
           {selectedStaff && (
-            <button className="change-btn" onClick={handleToggleCollapse}>
-              {isCollapsed ? 'Изменить' : 'Свернуть'}
+            <button className="change-btn" onClick={handleChangeStaff}>
+              Изменить
             </button>
           )}
         </div>
@@ -49,29 +49,18 @@ const StaffSelection = ({ staff, onSelectStaff, selectedStaff }) => {
       </div>
 
       {selectedStaff && isCollapsed ? (
-        <div className="selected-staff-summary">
-          <div className="selected-staff-card">
-            <div className="staff-avatar">
-              {selectedStaff.photos?.avatar?.url ? (
-                <img 
-                  src={selectedStaff.photos.avatar.url} 
-                  alt={selectedStaff.fullName}
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.nextSibling.style.display = 'flex';
-                  }}
-                />
-              ) : null}
-              <div className="default-avatar" style={{ display: selectedStaff.photos?.avatar?.url ? 'none' : 'flex' }}>
-                {selectedStaff.fullName?.charAt(0) || 'S'}
+        <div className="selected-staff-display">
+          <div className="selected-staff-item">
+            <div className="staff-content">
+              <h4>Мастер</h4>
+              <div className="staff-details">
+                <span className="selected-staff-name">{selectedStaff.fullName || 'Staff Member'}</span>
+                {selectedStaff.position && (
+                  <span className="selected-staff-position">{selectedStaff.position}</span>
+                )}
               </div>
             </div>
-            <div className="staff-info">
-              <h4>{selectedStaff.fullName || 'Staff Member'}</h4>
-              {selectedStaff.position && (
-                <p className="staff-position">{selectedStaff.position}</p>
-              )}
-            </div>
+            <div className="selection-checkmark">✓</div>
           </div>
         </div>
       ) : (

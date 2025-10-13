@@ -11,6 +11,10 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
     setIsCollapsed(true);
   };
 
+  const handleChangeService = () => {
+    setIsCollapsed(false);
+  };
+
   const handleToggleCollapse = () => {
     setIsCollapsed(!isCollapsed);
   };
@@ -75,8 +79,8 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
         <div className="section-title">
           <h3>Выберите услугу</h3>
           {selectedService && (
-            <button className="change-btn" onClick={handleToggleCollapse}>
-              {isCollapsed ? 'Изменить' : 'Свернуть'}
+            <button className="change-btn" onClick={handleChangeService}>
+              Изменить
             </button>
           )}
         </div>
@@ -84,40 +88,22 @@ const ServiceSelection = ({ services, onSelectService, selectedService }) => {
       </div>
 
       {selectedService && isCollapsed ? (
-        <div className="service-list-item selected">
-          <div className="service-icon-small">
-            {(() => {
-              const nameLower = selectedService.name.toLowerCase();
-              if (nameLower.includes('стриж') || nameLower.includes('haircut')) return 'H';
-              if (nameLower.includes('массаж') || nameLower.includes('massage')) return 'M';
-              if (nameLower.includes('брит') || nameLower.includes('shave')) return 'S';
-              if (nameLower.includes('уклад') || nameLower.includes('styling')) return 'T';
-              return 'B';
-            })()}
-          </div>
-          <div className="service-content">
-            <h4>{selectedService.name}</h4>
-            {selectedService.category && (
-              <div className="service-category">
-                {selectedService.category}
-              </div>
-            )}
-            <div className="service-details">
-              <span className="service-duration">{selectedService.duration || 60} мин</span>
-              <div className="price-container">
-                {selectedService.discount ? (
-                  <>
-                    <span className="original-price">{selectedService.price?.toLocaleString() || '0'} сум</span>
-                    <span className="service-price">{((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString()} сум</span>
-                    <span className="discount-badge">-{selectedService.discount}%</span>
-                  </>
-                ) : (
-                  <span className="service-price">{selectedService.price?.toLocaleString() || '0'} сум</span>
-                )}
+        <div className="selected-service-display">
+          <div className="selected-service-item">
+            <div className="service-content">
+              <h4>Услуга</h4>
+              <div className="service-details">
+                <span className="selected-service-name">{selectedService.name}</span>
+                <span className="selected-service-price">
+                  {selectedService.discount 
+                    ? ((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString() + ' сум'
+                    : (selectedService.price?.toLocaleString() || '0') + ' сум'
+                  }
+                </span>
               </div>
             </div>
+            <div className="selection-checkmark">✓</div>
           </div>
-          <div className="selection-checkmark-small">✓</div>
         </div>
       ) : (
         <>
