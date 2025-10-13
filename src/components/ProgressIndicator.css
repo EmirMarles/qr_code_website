@@ -81,10 +81,11 @@
 }
 
 .progress-step.current .step-icon {
-  background: #f0f4f7;
+  background: #2b4756;
   border-color: #2b4756;
-  color: #2b4756;
-  box-shadow: 0 0 0 3px rgba(43, 71, 86, 0.1);
+  color: white;
+  box-shadow: 0 0 0 3px rgba(43, 71, 86, 0.2);
+  transform: scale(1.1);
 }
 
 .step-label {
@@ -101,7 +102,8 @@
 
 .progress-step.current .step-label {
   color: #2b4756;
-  font-weight: 600;
+  font-weight: 700;
+  transform: scale(1.05);
 }
 
 /* Responsive Design */

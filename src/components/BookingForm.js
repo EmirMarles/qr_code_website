@@ -36,9 +36,6 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
       newErrors.clientPhone = 'Введите номер в формате +998XXXXXXXXX';
     }
 
-    if (formData.notes && formData.notes.length > 500) {
-      newErrors.notes = 'Примечания не должны превышать 500 символов';
-    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -74,12 +71,25 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
   const formatDate = (dateString) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', { 
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long', 
-        day: 'numeric' 
-      });
+      
+      // Russian month names
+      const months = [
+        'января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+        'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'
+      ];
+      
+      // Russian weekday names
+      const weekdays = [
+        'Воскресенье', 'Понедельник', 'Вторник', 'Среда', 
+        'Четверг', 'Пятница', 'Суббота'
+      ];
+      
+      const weekday = weekdays[date.getDay()];
+      const day = date.getDate();
+      const month = months[date.getMonth()];
+      const year = date.getFullYear();
+      
+      return `${weekday}, ${day} ${month} ${year}`;
     } catch (error) {
       return dateString;
     }
@@ -158,21 +168,6 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
         )}
       </div>
 
-      <div className="form-group">
-        <label htmlFor="notes">Примечания (необязательно)</label>
-        <textarea
-          id="notes"
-          name="notes"
-          value={formData.notes || ''}
-          onChange={handleInputChange}
-          rows="3"
-          placeholder="Дополнительная информация..."
-          className={errors.notes ? 'error' : ''}
-        />
-        {errors.notes && (
-          <span className="error-message">{errors.notes}</span>
-        )}
-      </div>
 
       <div className="form-actions">
         <button 
@@ -186,7 +181,10 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
               Запись...
             </>
           ) : (
-            'Записаться на прием'
+            <>
+              <span className="checkmark-icon">✓</span>
+              Подтвердить запись
+            </>
           )}
         </button>
       </div>
