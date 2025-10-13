@@ -6,6 +6,7 @@ import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
 import NotFound from './NotFound';
+import Loading from './Loading';
 import { fetchBusinessData, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
 
@@ -314,10 +315,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   if (isLoading) {
     return (
       <div className="booking-page">
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>Loading booking information...</p>
-        </div>
+        <Loading message="Загрузка информации о записи..." />
       </div>
     );
   }

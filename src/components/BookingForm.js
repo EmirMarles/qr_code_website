@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Loading from './Loading';
 import './BookingForm.css';
 
 const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, selectedTime, formData, onFormDataChange }) => {
@@ -94,6 +95,14 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
       return dateString;
     }
   };
+
+  if (isSubmitting) {
+    return (
+      <div className="booking-form">
+        <Loading message="Создание записи..." />
+      </div>
+    );
+  }
 
   return (
     <form className="booking-form" onSubmit={handleSubmit}>
