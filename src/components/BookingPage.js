@@ -5,8 +5,6 @@ import StaffSelection from './StaffSelection';
 import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
-import ProgressIndicator from './ProgressIndicator';
-import StickyCTA from './StickyCTA';
 import NotFound from './NotFound';
 import { fetchBusinessData, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
@@ -301,35 +299,6 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     }
   };
 
-  const handleContinue = () => {
-    // Auto-advance logic based on current step
-    if (selectedService && !selectedStaff) {
-      // Move to staff selection
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (selectedService && selectedStaff && !selectedDate) {
-      // Move to date selection
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (selectedService && selectedStaff && selectedDate && !selectedTime) {
-      // Move to time selection
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const canContinue = () => {
-    if (!selectedService) return false;
-    if (selectedService && !selectedStaff) return true;
-    if (selectedService && selectedStaff && !selectedDate) return true;
-    if (selectedService && selectedStaff && selectedDate && !selectedTime) return true;
-    return false;
-  };
-
-  const getContinueButtonText = () => {
-    if (!selectedService) return "Выберите услугу";
-    if (selectedService && !selectedStaff) return "Выберите мастера";
-    if (selectedService && selectedStaff && !selectedDate) return "Выберите дату";
-    if (selectedService && selectedStaff && selectedDate && !selectedTime) return "Выберите время";
-    return "Продолжить";
-  };
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
@@ -374,21 +343,10 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     return <NotFound />;
   }
 
-      // Calculate current step for progress indicator
-      const getCurrentStep = () => {
-        if (selectedService && selectedStaff && selectedDate && selectedTime) return 5; // Booking form
-        if (selectedService && selectedStaff && selectedDate) return 4; // Time selection
-        if (selectedService && selectedStaff) return 3; // Date selection
-        if (selectedService) return 2; // Staff selection
-        return 1; // Service selection
-      };
 
       return (
         <div className="booking-page">
           <div className="container">
-            {/* Progress Indicator */}
-            <ProgressIndicator currentStep={getCurrentStep()} totalSteps={5} />
-
             {/* Header */}
             <header className="header">
               <div className="business-header-content">
@@ -481,15 +439,6 @@ const BookingPage = ({ businessId: propBusinessId }) => {
               />
             )}
 
-            {/* Sticky CTA */}
-            <StickyCTA
-              currentStep={getCurrentStep()}
-              totalSteps={5}
-              onContinue={handleContinue}
-              canContinue={canContinue()}
-              buttonText={getContinueButtonText()}
-              isLoading={isSubmitting}
-            />
       </div>
     </div>
   );

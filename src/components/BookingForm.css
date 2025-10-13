@@ -23,15 +23,15 @@
 .booking-summary {
   background: #f9fafb;
   border-radius: 8px;
-  padding: 25px;
-  margin-bottom: 30px;
+  padding: 16px;
+  margin-bottom: 20px;
   border: 1px solid #e5e7eb;
 }
 
 .booking-summary h4 {
-  font-size: 20px;
+  font-size: 18px;
   color: #1f2937;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   font-weight: 700;
   letter-spacing: -0.025em;
 }
@@ -40,9 +40,9 @@
   display: grid;
   grid-template-columns: 1fr 2fr;
   align-items: center;
-  padding: 12px 0;
+  padding: 8px 0;
   border-bottom: 1px solid #e5e7eb;
-  gap: 16px;
+  gap: 12px;
 }
 
 .summary-item span:first-child {
@@ -64,17 +64,17 @@
 
 .summary-item.total {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 16px;
   color: #059669;
-  padding-top: 15px;
-  margin-top: 10px;
-  border-top: 2px solid #e5e7eb;
+  padding-top: 8px;
+  margin-top: 6px;
+  border-top: 1px solid #e5e7eb;
 }
 
 .summary-item.total span:first-child {
   color: #059669;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 .form-group {
@@ -207,11 +207,11 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: 2px;
 }
 
 .price-summary .original-price {
-  font-size: 13px;
+  font-size: 11px;
   color: #9ca3af;
   text-decoration: line-through;
   font-weight: 400;
@@ -219,20 +219,20 @@
 }
 
 .price-summary .discounted-price {
-  font-size: 20px;
+  font-size: 16px;
   color: #059669;
   font-weight: 700;
   order: 1;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
 }
 
 .price-summary .discount-info {
-  font-size: 11px;
+  font-size: 9px;
   color: #dc2626;
   font-weight: 700;
   background: #fee2e2;
-  padding: 3px 8px;
-  border-radius: 12px;
+  padding: 2px 6px;
+  border-radius: 8px;
   border: 1px solid #fecaca;
   order: 3;
   text-transform: uppercase;
@@ -256,21 +256,25 @@
   }
   
   .booking-summary {
-    padding: 20px;
-    margin-bottom: 25px;
+    padding: 12px;
+    margin-bottom: 16px;
   }
   
   .booking-summary h4 {
     font-size: 16px;
+    margin-bottom: 8px;
   }
   
   .summary-item {
-    padding: 10px 0;
+    padding: 6px 0;
     font-size: 14px;
+    gap: 8px;
   }
   
   .summary-item.total {
-    font-size: 16px;
+    font-size: 14px;
+    padding-top: 6px;
+    margin-top: 4px;
   }
   
   .form-group {
@@ -304,17 +308,23 @@
   }
   
   .booking-summary {
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 10px;
+    margin-bottom: 12px;
   }
   
   .summary-item {
     grid-template-columns: 1fr;
-    gap: 4px;
+    gap: 2px;
+    padding: 4px 0;
   }
   
   .summary-item span:last-child {
     text-align: left;
+  }
+  
+  .summary-item.total {
+    padding-top: 4px;
+    margin-top: 2px;
   }
   
   .form-group input {
