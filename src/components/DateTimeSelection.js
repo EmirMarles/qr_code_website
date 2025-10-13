@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import './DateTimeSelection.css';
+import Calendar from './Calendar';
 
 const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, selectedTime }) => {
   const [localSelectedTime, setLocalSelectedTime] = useState(selectedTime);
+  const [localSelectedDate, setLocalSelectedDate] = useState(selectedDate);
+
+  const handleDateSelect = (date) => {
+    setLocalSelectedDate(date);
+    onSelectDateTime(date, localSelectedTime);
+  };
 
   const handleTimeSelect = (time) => {
     setLocalSelectedTime(time);
-    onSelectDateTime(selectedDate, time);
+    onSelectDateTime(localSelectedDate, time);
   };
 
   const getAvailableTimes = () => {
@@ -31,22 +38,34 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
 
   return (
     <div className="datetime-selection">
-      <h3>Выберите время</h3>
-      <p className="section-description">Выберите удобное время записи</p>
+      <h3>Выберите дату и время</h3>
+      <p className="section-description">Выберите удобную дату и время записи</p>
       
-      <div className="time-selection">
-        <div className="times-grid">
-          {getAvailableTimes().map(timeSlot => (
-            <button
-              key={timeSlot.startTime}
-              className={`time-btn ${localSelectedTime === timeSlot.startTime ? 'selected' : ''}`}
-              onClick={() => handleTimeSelect(timeSlot.startTime)}
-            >
-              {timeSlot.startTime}
-            </button>
-          ))}
-        </div>
+      <div className="date-selection">
+        <h4>Выберите дату</h4>
+        <Calendar
+          selectedDate={localSelectedDate}
+          onDateSelect={handleDateSelect}
+          availableDates={[]} // You can pass available dates here if needed
+        />
       </div>
+      
+      {localSelectedDate && (
+        <div className="time-selection">
+          <h4>Выберите время</h4>
+          <div className="times-grid">
+            {getAvailableTimes().map(timeSlot => (
+              <button
+                key={timeSlot.startTime}
+                className={`time-btn ${localSelectedTime === timeSlot.startTime ? 'selected' : ''}`}
+                onClick={() => handleTimeSelect(timeSlot.startTime)}
+              >
+                {timeSlot.startTime}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
