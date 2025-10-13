@@ -5,7 +5,7 @@ const NotFound = () => {
   return (
     <div className="not-found-page">
       <div className="not-found-container">
-        <div className="not-found-icon">:C</div>
+        <div className="not-found-icon">:(</div>
         <h1>404</h1>
         <h2>Бизнес не найден</h2>
         <p>Бизнес, который вы ищете, не существует или QR-код недействителен.</p>
