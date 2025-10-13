@@ -5,15 +5,23 @@ import Calendar from './Calendar';
 const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, selectedTime }) => {
   const [localSelectedTime, setLocalSelectedTime] = useState(selectedTime);
   const [localSelectedDate, setLocalSelectedDate] = useState(selectedDate);
+  const [showAllSlots, setShowAllSlots] = useState(true);
 
   const handleDateSelect = (date) => {
     setLocalSelectedDate(date);
-    onSelectDateTime(date, localSelectedTime);
+    setLocalSelectedTime(null); // Reset time when date changes
+    setShowAllSlots(true); // Show all slots for new date
+    onSelectDateTime(date, null);
   };
 
   const handleTimeSelect = (time) => {
     setLocalSelectedTime(time);
+    setShowAllSlots(false); // Hide other slots when one is selected
     onSelectDateTime(localSelectedDate, time);
+  };
+
+  const handleChangeTime = () => {
+    setShowAllSlots(true); // Show all slots again
   };
 
   const getAvailableTimes = () => {
@@ -64,18 +72,36 @@ const DateTimeSelection = ({ availableSlots, onSelectDateTime, selectedDate, sel
       
       {localSelectedDate && (
         <div className="time-selection">
-          <h4>Выберите время</h4>
-          <div className="times-grid">
-            {getAvailableTimes().map(timeSlot => (
-              <button
-                key={timeSlot.startTime}
-                className={`time-btn ${localSelectedTime === timeSlot.startTime ? 'selected' : ''}`}
-                onClick={() => handleTimeSelect(timeSlot.startTime)}
-              >
-                {timeSlot.startTime}
+          <div className="time-selection-header">
+            <h4>Выберите время</h4>
+            {localSelectedTime && !showAllSlots && (
+              <button className="change-time-btn" onClick={handleChangeTime}>
+                Изменить
               </button>
-            ))}
+            )}
           </div>
+          
+          {showAllSlots ? (
+            <div className="times-grid">
+              {getAvailableTimes().map(timeSlot => (
+                <button
+                  key={timeSlot.startTime}
+                  className={`time-btn ${localSelectedTime === timeSlot.startTime ? 'selected' : ''}`}
+                  onClick={() => handleTimeSelect(timeSlot.startTime)}
+                >
+                  {timeSlot.startTime}
+                </button>
+              ))}
+            </div>
+          ) : (
+            localSelectedTime && (
+              <div className="selected-time-display">
+                <div className="selected-time-card">
+                  <span className="selected-time-text">{localSelectedTime}</span>
+                </div>
+              </div>
+            )
+          )}
         </div>
       )}
     </div>

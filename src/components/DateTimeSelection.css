@@ -33,6 +33,52 @@
   font-weight: 600;
 }
 
+.time-selection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.change-time-btn {
+  background: #f8fafc;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.change-time-btn:hover {
+  background: #2b4756;
+  border-color: #2b4756;
+  color: white;
+}
+
+.selected-time-display {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.selected-time-card {
+  background: #f0f4f7;
+  border: 2px solid #2b4756;
+  border-radius: 0.75rem;
+  padding: 1rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(43, 71, 86, 0.15);
+}
+
+.selected-time-text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #2b4756;
+}
+
 .dates-grid,
 .times-grid {
   display: grid;
