@@ -33,8 +33,14 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
     
     if (!formData.clientPhone.trim()) {
       newErrors.clientPhone = 'Номер телефона обязателен';
-    } else if (!/^\+998[0-9]{9}$/.test(formData.clientPhone.replace(/[\s\-()]/g, ''))) {
-      newErrors.clientPhone = 'Введите номер в формате +998XXXXXXXXX';
+    } else {
+      // Remove all non-digit characters for validation
+      const cleanedPhone = formData.clientPhone.replace(/\D/g, '');
+      
+      // Accept various formats: 998XXXXXXXXX, 90XXXXXXXXX, 8XXXXXXXXX, or 9XXXXXXXXX
+      if (!/^(998|90|8|9)[0-9]{8,9}$/.test(cleanedPhone)) {
+        newErrors.clientPhone = 'Введите корректный номер телефона';
+      }
     }
 
 
@@ -163,7 +169,7 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
           name="clientPhone"
           value={formData.clientPhone}
           onChange={handleInputChange}
-          placeholder="+998901234567"
+          placeholder="+998 90 123 45 67"
           className={errors.clientPhone ? 'error' : ''}
           required
         />
