@@ -50,9 +50,10 @@ const BookingSuccessModal = ({ booking, onClose }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="success-modal" onClick={(e) => e.stopPropagation()}>
         <div className="success-icon">✅</div>
-        <h2>Запись подтверждена!</h2>
+        <h2>Запись создана!</h2>
         <p className="success-message">
-          Ваша запись успешно создана. Вы получите подтверждение в ближайшее время.
+          Ваша запись успешно создана и ожидает подтверждения от бизнеса. 
+          <strong> Вы получите SMS-уведомление</strong> после подтверждения вашей записи.
         </p>
         
         <div className="booking-details">
@@ -89,6 +90,7 @@ const BookingSuccessModal = ({ booking, onClose }) => {
         </div>
 
         <div className="success-note">
+          <p>📱 <strong>SMS придет на номер:</strong> {booking?.clientPhone || 'N/A'}</p>
           <p>💡 Сохраните эту страницу или сделайте скриншот для ваших записей.</p>
         </div>
       </div>

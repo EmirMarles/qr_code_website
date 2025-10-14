@@ -77,9 +77,30 @@ export const fetchAvailableSlots = async (businessId, staffId, serviceId, date) 
   }
 };
 
+// Format phone number for SMS integration (998XXXXXXXXX format)
+const formatPhoneNumber = (phone) => {
+  // Remove all non-digit characters
+  let cleaned = phone.replace(/\D/g, '');
+  
+  // If starts with 8, replace with 998
+  if (cleaned.startsWith('8')) {
+    cleaned = '998' + cleaned.substring(1);
+  }
+  
+  // If doesn't start with 998, add it
+  if (!cleaned.startsWith('998')) {
+    cleaned = '998' + cleaned;
+  }
+  
+  return cleaned;
+};
+
 // Submit booking
 export const submitBooking = async (bookingData) => {
   try {
+    // Format phone number for SMS integration
+    const formattedPhone = formatPhoneNumber(bookingData.clientPhone);
+    
     const response = await fetch(`${API_BASE_URL}/book-client/${bookingData.business}`, {
       method: 'POST',
       headers: {
@@ -87,7 +108,7 @@ export const submitBooking = async (bookingData) => {
       },
       body: JSON.stringify({
         fullName: bookingData.clientName,
-        phoneNumber: bookingData.clientPhone,
+        phoneNumber: formattedPhone, // ✅ Formatted for SMS: 998XXXXXXXXX
         serviceId: bookingData.service,
         staffId: bookingData.staff,
         date: bookingData.date,
