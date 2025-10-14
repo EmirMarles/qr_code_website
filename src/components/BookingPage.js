@@ -5,9 +5,8 @@ import StaffSelection from './StaffSelection';
 import DateTimeSelection from './DateTimeSelection';
 import BookingForm from './BookingForm';
 import BookingSuccessModal from './BookingSuccessModal';
-import ProgressIndicator from './ProgressIndicator';
-import StickyCTA from './StickyCTA';
 import NotFound from './NotFound';
+import Loading from './Loading';
 import { fetchBusinessData, fetchServicesByStaff, fetchAvailableSlots, submitBooking } from '../services/api';
 import './BookingPage.css';
 
@@ -31,6 +30,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   const [bookingResult, setBookingResult] = useState(null);
   const [showBusinessInfo, setShowBusinessInfo] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [allServices, setAllServices] = useState([]); // Store all services
   
   // Get business ID from prop or URL parameters
   const getBusinessId = () => {
@@ -58,6 +58,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
         // Extract services and staff from business data (should be embedded)
         if (businessData.services && Array.isArray(businessData.services)) {
           setServices(businessData.services);
+          setAllServices(businessData.services); // Store all services
         } else {
           console.warn('Services not found in business data');
           // Use sample services with categories for demonstration
@@ -140,6 +141,73 @@ const BookingPage = ({ businessId: propBusinessId }) => {
               _id: "service10",
               name: "VIP Facial Treatment",
               category: "Skincare",
+              duration: 120,
+              price: 500000,
+              discount: 25, // 25% discount
+              staff: ["staff5"]
+            }
+          ]);
+          setAllServices([
+            {
+              _id: "service1",
+              name: "Haircut",
+              category: "Hair",
+              duration: 60,
+              price: 500000,
+              staff: ["staff1", "staff2"]
+            },
+            {
+              _id: "service2", 
+              name: "Massage",
+              category: "Wellness",
+              duration: 60,
+              price: 200000,
+              staff: ["staff3", "staff4"]
+            },
+            {
+              _id: "service3",
+              name: "Классический массаж",
+              category: "Wellness", 
+              duration: 45,
+              price: 150000,
+              staff: ["staff3"]
+            },
+            {
+              _id: "service4",
+              name: "Стрижка мужская",
+              category: "Hair",
+              duration: 30,
+              price: 80000,
+              staff: ["staff1", "staff2"]
+            },
+            {
+              _id: "service5",
+              name: "Facial Treatment",
+              category: "Skincare",
+              duration: 90,
+              price: 300000,
+              staff: ["staff5"]
+            },
+            {
+              _id: "service6",
+              name: "Manicure",
+              // No category - will be grouped under "Другое"
+              duration: 45,
+              price: 100000,
+              staff: ["staff6"]
+            },
+            {
+              _id: "service7",
+              name: "Pedicure",
+              // No category - will be grouped under "Другое"
+              duration: 60,
+              price: 120000,
+              staff: ["staff6"]
+            },
+            {
+              _id: "service8",
+              name: "Premium Package",
+              category: "Premium",
               duration: 120,
               price: 500000,
               discount: 25, // 25% discount
@@ -238,6 +306,16 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     setSelectedTime(null);
   };
 
+  const handleServiceEdit = () => {
+    // Reset staff selection
+    setSelectedStaff(null);
+    // Reset to show all services
+    setServices(allServices);
+    // Reset dependent selections
+    setSelectedDate(null);
+    setSelectedTime(null);
+  };
+
   const handleStaffSelect = async (staffMember) => {
     setSelectedStaff(staffMember);
     // Reset dependent selections
@@ -301,35 +379,6 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     }
   };
 
-  const handleContinue = () => {
-    // Auto-advance logic based on current step
-    if (selectedService && !selectedStaff) {
-      // Move to staff selection
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (selectedService && selectedStaff && !selectedDate) {
-      // Move to date selection
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (selectedService && selectedStaff && selectedDate && !selectedTime) {
-      // Move to time selection
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
-
-  const canContinue = () => {
-    if (!selectedService) return false;
-    if (selectedService && !selectedStaff) return true;
-    if (selectedService && selectedStaff && !selectedDate) return true;
-    if (selectedService && selectedStaff && selectedDate && !selectedTime) return true;
-    return false;
-  };
-
-  const getContinueButtonText = () => {
-    if (!selectedService) return "Выберите услугу";
-    if (selectedService && !selectedStaff) return "Выберите мастера";
-    if (selectedService && selectedStaff && !selectedDate) return "Выберите дату";
-    if (selectedService && selectedStaff && selectedDate && !selectedTime) return "Выберите время";
-    return "Продолжить";
-  };
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
@@ -345,10 +394,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
   if (isLoading) {
     return (
       <div className="booking-page">
-        <div className="loading-container">
-          <div className="loading-spinner"></div>
-          <p>Loading booking information...</p>
-        </div>
+        <Loading message="Загрузка информации о записи..." />
       </div>
     );
   }
@@ -374,21 +420,10 @@ const BookingPage = ({ businessId: propBusinessId }) => {
     return <NotFound />;
   }
 
-      // Calculate current step for progress indicator
-      const getCurrentStep = () => {
-        if (selectedService && selectedStaff && selectedDate && selectedTime) return 5; // Booking form
-        if (selectedService && selectedStaff && selectedDate) return 4; // Time selection
-        if (selectedService && selectedStaff) return 3; // Date selection
-        if (selectedService) return 2; // Staff selection
-        return 1; // Service selection
-      };
 
       return (
         <div className="booking-page">
           <div className="container">
-            {/* Progress Indicator */}
-            <ProgressIndicator currentStep={getCurrentStep()} totalSteps={5} />
-
             {/* Header */}
             <header className="header">
               <div className="business-header-content">
@@ -430,6 +465,7 @@ const BookingPage = ({ businessId: propBusinessId }) => {
           services={services}
           onSelectService={handleServiceSelect}
           selectedService={selectedService}
+          onEditService={handleServiceEdit}
         />
 
         {/* Staff Selection */}
@@ -481,15 +517,6 @@ const BookingPage = ({ businessId: propBusinessId }) => {
               />
             )}
 
-            {/* Sticky CTA */}
-            <StickyCTA
-              currentStep={getCurrentStep()}
-              totalSteps={5}
-              onContinue={handleContinue}
-              canContinue={canContinue()}
-              buttonText={getContinueButtonText()}
-              isLoading={isSubmitting}
-            />
       </div>
     </div>
   );
