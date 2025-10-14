@@ -37,8 +37,8 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
       // Remove all non-digit characters for validation
       const cleanedPhone = formData.clientPhone.replace(/\D/g, '');
       
-      // Accept various formats: 998XXXXXXXXX, 90XXXXXXXXX, 8XXXXXXXXX, or 9XXXXXXXXX
-      if (!/^(998|90|8|9)[0-9]{8,9}$/.test(cleanedPhone)) {
+      // Accept various formats: 998XXXXXXXXX (12 digits), 90XXXXXXXXX (10 digits), 8XXXXXXXXX (10 digits), or 9XXXXXXXXX (10 digits)
+      if (!/^(998[0-9]{9}|90[0-9]{8}|8[0-9]{9}|9[0-9]{8})$/.test(cleanedPhone)) {
         newErrors.clientPhone = 'Введите корректный номер телефона';
       }
     }
