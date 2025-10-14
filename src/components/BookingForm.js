@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Loading from './Loading';
 import './BookingForm.css';
 
 const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, selectedTime, formData, onFormDataChange }) => {
@@ -33,14 +32,8 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
     
     if (!formData.clientPhone.trim()) {
       newErrors.clientPhone = 'Номер телефона обязателен';
-    } else {
-      // Remove all non-digit characters for validation
-      const cleanedPhone = formData.clientPhone.replace(/\D/g, '');
-      
-      // Accept various formats: 998XXXXXXXXX (12 digits), 90XXXXXXXXX (10 digits), 8XXXXXXXXX (10 digits), or 9XXXXXXXXX (10 digits)
-      if (!/^(998[0-9]{9}|90[0-9]{8}|8[0-9]{9}|9[0-9]{8})$/.test(cleanedPhone)) {
-        newErrors.clientPhone = 'Введите корректный номер телефона';
-      }
+    } else if (!/^\+998[0-9]{9}$/.test(formData.clientPhone.replace(/[\s\-()]/g, ''))) {
+      newErrors.clientPhone = 'Введите номер в формате +998XXXXXXXXX';
     }
 
 
@@ -102,14 +95,6 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
     }
   };
 
-  if (isSubmitting) {
-    return (
-      <div className="booking-form">
-        <Loading message="Создание записи..." />
-      </div>
-    );
-  }
-
   return (
     <form className="booking-form" onSubmit={handleSubmit}>
       <h3>Завершите запись</h3>
@@ -135,12 +120,17 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
         </div>
         <div className="summary-item total">
           <span>Сумма:</span>
-          <span>
-            {selectedService?.discount 
-              ? ((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString() + ' сум'
-              : (selectedService?.price?.toLocaleString() || '0') + ' сум'
-            }
-          </span>
+          <div className="price-summary">
+            {selectedService?.discount ? (
+              <>
+                <span className="original-price">{selectedService.price?.toLocaleString() || '0'} сум</span>
+                <span className="discounted-price">{((selectedService.price || 0) * (1 - selectedService.discount / 100)).toLocaleString()} сум</span>
+                <span className="discount-info">-{selectedService.discount}%</span>
+              </>
+            ) : (
+              <span>{selectedService?.price?.toLocaleString() || '0'} сум</span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -169,7 +159,7 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
           name="clientPhone"
           value={formData.clientPhone}
           onChange={handleInputChange}
-          placeholder="+998 90 123 45 67"
+          placeholder="+998901234567"
           className={errors.clientPhone ? 'error' : ''}
           required
         />
@@ -200,7 +190,7 @@ const BookingForm = ({ onSubmit, selectedService, selectedStaff, selectedDate, s
       </div>
 
       <div className="booking-note">
-        <p>📱 <strong>SMS-подтверждение:</strong> После подтверждения бизнесом вы получите SMS на указанный номер телефона.</p>
+        <p>📝 Вы получите подтверждение после обработки вашей записи.</p>
       </div>
     </form>
   );
